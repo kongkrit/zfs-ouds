@@ -5,7 +5,7 @@ if [ $USER != "root" ]; then
         exit -1
 fi
 
-echo "=== list disks"
+echo "=== 6.8 list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 6.8 mirror grub"
 echo "    disk 1 is where grub is already installed"
