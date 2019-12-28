@@ -15,4 +15,4 @@ chown -R $USERNAME:$USERNAME /home/$USERNAME
 echo "=== 6.7 Add [$USERNAME] to the default set groups for an administrator:"
 usermod -a -G adm,cdrom,dip,lpadmin,plugdev,sambashare,sudo YOURUSERNAME
 
-echo "=== 6.7 done -- continue with z6b.sh"
+echo "=== 6.7 done -- continue with z6b.sh -- from ssh ${USERNAME}@ipaddress"
