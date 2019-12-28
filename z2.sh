@@ -17,7 +17,7 @@ apt install --yes debootstrap gdisk zfs-initramfs
 # systemctl start zfs-zed
 # zfs --version
 
-echo === list disks
+echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
 read -p "=== enter name of disk1 of 2:" DISK
