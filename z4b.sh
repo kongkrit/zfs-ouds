@@ -85,3 +85,5 @@ read -p "press enter:"
 
 echo "=== 5.2 Refresh the initrd files:"
 update-initramfs -u -k all
+
+echo "=== FINISHED 5.2 - continue in z5"
