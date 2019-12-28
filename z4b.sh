@@ -13,6 +13,7 @@ echo "=== 4.5 configure locale--make sure en_US.UTF-8 is checked"
 #read -p "enter to start configuring locale:" DUMMYV
 #dpkg-reconfigure locales
 echo "=== select en_US.UTF-8"
+# from https://askubuntu.com/questions/683406/how-to-automate-dpkg-reconfigure-locales-with-one-command
 echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections
 echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections
 rm "/etc/locale.gen"
@@ -22,6 +23,7 @@ echo "=== 4.5 configuring time zone data"
 #read -p "enter to start configuring time zone data:" DUMMYV
 #dpkg-reconfigure tzdata
 echo "=== 4.5 set time zone to [Asia/Bangkok]"
+# from https://serverfault.com/questions/84521/automate-dpkg-reconfigure-tzdata
 ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 dpkg-reconfigure -f noninteractive tzdata
 
