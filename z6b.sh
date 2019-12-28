@@ -63,6 +63,9 @@ for file in /etc/logrotate.d/* ; do
     fi
 done
 
+echo "=== 9.3 Optional: Disable the root password"
+usermod -p '*' root
+
 echo "=== 8.4 reboot"
 read -p "press enter to reboot:" DUMMYV
 reboot
