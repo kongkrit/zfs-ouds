@@ -5,6 +5,10 @@ if [ $USER != "root" ]; then
         exit -1
 fi
 
+echo "****************"
+echo "*** in s4.sh ***"
+echo "****************"
+
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
 apt update
