@@ -5,6 +5,11 @@ if [ $USER != "root" ]; then
         exit -1
 fi
 
+echo "********************"
+echo "*** IN s2.sh NOW ***"
+echo "********************"
+
+echo "=== 1.5 install debootstrap gdisk and zfs"
 # add-apt-repository --yes ppa:jonathonf/zfs
 apt install --yes debootstrap gdisk zfs-initramfs
 
