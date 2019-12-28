@@ -56,7 +56,7 @@ read -p "=== enter name of disk2 of 2:" DISK2
 DISK2=/dev/disk/by-id/$DISK2
 
 echo "==="
-echo "=== 4.4 doing chroot, when bash prompt comes, execute z4.sh"
+echo "=== 4.4 doing chroot, when bash prompt comes, execute z4b.sh"
 echo "==="
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
 echo "=== 4.4 done chroot"
