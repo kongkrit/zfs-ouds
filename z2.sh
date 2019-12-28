@@ -74,3 +74,4 @@ zpool create -o ashift=12 \
     -O mountpoint=/ -R /mnt rpool mirror ${DISK}-part4 ${DISK2}-part4
 
 echo "=== finished step 2.5"
+echo "=== run z3.sh as root next"
