@@ -27,8 +27,8 @@ echo "=== 4.5 set time zone to [Asia/Bangkok]"
 ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 dpkg-reconfigure -f noninteractive tzdata
 
-echo "=== 4.5 install nano"
-apt install -y nano
+echo "=== 4.5 install nano and openssh-server"
+apt install -y nano openssh-server
 
 echo "=== 4.6 install ZFS over HWE kernel on disks"
 apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
