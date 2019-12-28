@@ -46,6 +46,9 @@ echo "=== 2.3a creating root partitions (unencrypted)"
 sgdisk     -n4:0:0        -t4:BF01 $DISK
 sgdisk     -n4:0:0        -t4:BF01 $DISK2
 
+echo "=== 2.3a done, sleeping for 3 seconds"
+sleep 3
+
 echo "=== 2.4 creating boot pool (mirrored)"
 zpool create -o ashift=12 -d \
     -o feature@async_destroy=enabled \
