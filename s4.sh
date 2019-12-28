@@ -8,6 +8,8 @@ fi
 echo "****************"
 echo "*** in s4.sh ***"
 echo "****************"
+echo "=== DISK  is [$DISK]"
+echo "=== DISK2 is [$DISK2]"
 
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
