@@ -19,3 +19,4 @@ passwd
 echo "==="
 echo "=== STEP 1.3 finished, run s2.sh as root next"
 echo "==="
+sudo bash s2.sh
