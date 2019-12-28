@@ -22,10 +22,10 @@ echo "=== 6.8b UEFI"
 echo "=== 6.8b unmount /boot/efi"
 umount /boot/efi
 echo "=== 6.8b copy GRUB from disk1 to disk2"
-dd if=/dev/disk/by-id/${DISK}-part2 \
-   of=/dev/disk/by-id/${DISK2}-part2
+dd if=${DISK}-part2 \
+   of=${DISK2}-part2
 echo "=== 6.8b install grub to disk2"
-efibootmgr -c -g -d /dev/disk/by-id/$DISK2 \
+efibootmgr -c -g -d $DISK2 \
     -p 2 -L "ubuntu-2" -l '\EFI\ubuntu\grubx64.efi'
 echo "=== 6.8b remount /boot/efi"
 mount /boot/efi
