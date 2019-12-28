@@ -22,6 +22,12 @@ apt install --yes debootstrap gdisk zfs-initramfs
 # systemctl start zfs-zed
 # zfs --version
 
+echo "=== 4.1 configure machine name as [$HOSTNAME]"
+read -p "4.1 Enter hostname:" HOSTNAME
+echo "=== 4.1 entered hostname as [$HOSTNAME]"
+read -p "4.1 Enter Fully Qualified Domain Name (FQDN) (blank if unsure):" FQDN
+echo "=== 4.1 entered FQDN as [$FQDN]"
+
 echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
@@ -37,12 +43,6 @@ if [ $CONFIRMIT != "Y" ]; then
   echo "=== not Y, exiting"
   exit -1
 fi
-
-echo "=== 4.1 configure machine name as [$HOSTNAME]"
-read -p "4.1 Enter hostname:" HOSTNAME
-echo "=== 4.1 entered hostname as [$HOSTNAME]"
-read -p "4.1 Enter Fully Qualified Domain Name (FQDN) (blank if unsure):" FQDN
-echo "=== 4.1 entered FQDN as [$FQDN]"
 
 echo "=== 2.2 formatting both disks"
 sgdisk --zap-all $DISK
