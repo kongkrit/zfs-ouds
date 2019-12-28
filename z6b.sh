@@ -10,6 +10,7 @@ ls -alF /dev/disk/by-id/
 echo "=== 6.8 mirror grub"
 echo "    disk 1 is where grub is already installed"
 echo "    disk 2 is the mirror"
+echo "=== *** ENTER DISK NAME WITHOUT -partN ***"
 read -p "=== enter name of disk1 of 2:" DISK
 DISK=/dev/disk/by-id/$DISK
 echo "==> disk1 is $DISK"
