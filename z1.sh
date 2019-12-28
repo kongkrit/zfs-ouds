@@ -11,3 +11,7 @@ echo "======================="
 ip a
 echo "=== 1.3changing password for ssh login"
 passwd
+
+echo "==="
+echo "=== STEP 1.3 finished, run z2.sh as root next"
+echo "==="
