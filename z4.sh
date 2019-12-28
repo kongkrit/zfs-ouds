@@ -60,3 +60,11 @@ echo "=== 4.4 doing chroot, when bash prompt comes, execute z4b.sh"
 echo "==="
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
 echo "=== 4.4 done chroot"
+
+echo "=== 6.3 unmount all filesystems in the LiveCD environment:"
+mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | xargs -i{} umount -lf {}
+zpool export -a
+
+echo "=== 6.4 about to reboot, then login as root"
+read -p "press enter to reboot:" DUMMYV
+reboot
