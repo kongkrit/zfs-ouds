@@ -1,5 +1,9 @@
 #!/bin/bash
 
+echo "********************"
+echo "*** IN s1.sh now ***"
+echo "********************"
+
 echo "=== 1.2 adding universe repo and update"
 sudo apt-add-repository universe
 sudo apt update
