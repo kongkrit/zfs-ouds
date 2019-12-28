@@ -21,7 +21,7 @@ echo "==> disk2 is $DISK2"
 echo "=== 6.8b UEFI"
 echo "=== 6.8b unmount /boot/efi"
 umount /boot/efi
-echo "=== 6.8b copy GRUB from disk1 to disk2
+echo "=== 6.8b copy GRUB from disk1 to disk2"
 dd if=/dev/disk/by-id/${DISK}-part2 \
    of=/dev/disk/by-id/${DISK2}-part2
 echo "=== 6.8b install grub to disk2
