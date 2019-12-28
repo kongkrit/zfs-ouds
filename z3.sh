@@ -50,3 +50,6 @@ chmod 1777 /mnt/tmp
 echo "=== 3.4 Install the minimal system:"
 debootstrap bionic /mnt
 zfs set devices=off rpool
+
+echo "==="
+echo "=== Step 3.4 finished, run z4.sh next"
