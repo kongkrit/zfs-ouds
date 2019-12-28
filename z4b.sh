@@ -10,12 +10,20 @@ ln -s /proc/self/mounts /etc/mtab
 apt update
 
 echo "=== 4.5 configure locale--make sure en_US.UTF-8 is checked"
-read -p "enter to start configuring locale:" DUMMYV
-dpkg-reconfigure locales
+#read -p "enter to start configuring locale:" DUMMYV
+#dpkg-reconfigure locales
+echo "=== select en_US.UTF-8"
+echo "locales locales/default_environment_locale select en_US.UTF-8" | debconf-set-selections
+echo "locales locales/locales_to_be_generated multiselect en_US.UTF-8 UTF-8" | debconf-set-selections
+rm "/etc/locale.gen"
+dpkg-reconfigure --frontend noninteractive locales
 
 echo "=== 4.5 configuring time zone data"
-read -p "enter to start configuring time zone data:" DUMMYV
-dpkg-reconfigure tzdata
+#read -p "enter to start configuring time zone data:" DUMMYV
+#dpkg-reconfigure tzdata
+echo "=== 4.5 set time zone to [Asia/Bangkok]"
+ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+dpkg-reconfigure -f noninteractive tzdata
 
 echo "=== 4.5 install nano"
 apt install -y nano
