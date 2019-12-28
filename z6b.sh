@@ -66,6 +66,10 @@ done
 echo "=== 9.3 Optional: Disable the root password"
 usermod -p '*' root
 
+echo "=== apt autoremove -y && apt autoclean"
+apt autoremove -y
+apt autoclean
+
 echo "=== 8.4 reboot"
 read -p "press enter to reboot:" DUMMYV
 reboot
