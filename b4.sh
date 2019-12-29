@@ -59,11 +59,12 @@ add-apt-repository --yes ppa:jonathonf/zfs
 echo "=== autoconfig libssl in debconf"
 echo "libssl1.1 libssl1.1/restart-services string" | debconf-set-selections
 echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
-echo "=== installing jonathonf/zfs"
 
 # read -p "enter to install initramfs:" DUMMYV
+echo "=== installing jonathonf/zfs: zfs-initramfs"
 apt install --yes zfs-initramfs
 # read -p "enter to install libelf-dev and zfs-dkms:" DUMMYV
+echo "=== installing jonathonf/zfs: libelf-dev zfs-dkms"
 apt install --yes libelf-dev zfs-dkms
 #echo "=== systemctl stop zfs-zed"
 #systemctl stop zfs-zed
