@@ -11,6 +11,9 @@ echo "**************************"
 echo "=== DISK  is [$DISK]"
 echo "=== DISK2 is [$DISK2]"
 
+echo "=== 4.9 setting root password"
+passwd
+
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
 apt update
@@ -56,8 +59,8 @@ mount /boot/efi
 echo "=== 4.8.5 install grub-efi"
 apt install --yes grub-efi-amd64-signed shim-signed
 
-echo "=== 4.9 setting root password"
-passwd
+#echo "=== 4.9 setting root password"
+#passwd
 
 echo "=== 4.10 enable zfs-import-bpool.service"
 echo "[Unit]
@@ -89,7 +92,7 @@ echo "=== 5.1 verify that zfs boot filesystem is recognized"
 echo "=== running grub-probe /boot"
 grub-probe /boot
 echo "=== result should say [zfs]"
-read -p "press enter:"
+#read -p "press enter:"
 
 echo "=== 5.2 Refresh the initrd files:"
 update-initramfs -u -k all
@@ -116,7 +119,7 @@ rm -f /tmp/grubby
 
 echo "=== 5.4 showing /etc/default/grub"
 cat /etc/default/grub
-read -p "enter to continue:" DUMMYV
+#read -p "enter to continue:" DUMMYV
 
 echo "=== 5.5 update grub"
 update-grub
@@ -129,7 +132,8 @@ grub-install --target=x86_64-efi --efi-directory=/boot/efi \
 echo "=== 5.7 Verify that the ZFS module is installed:"
 echo "    ls /boot/grub/*/zfs.mod" 
 ls /boot/grub/*/zfs.mod
-read -p "=== result above. press enter:" DUMMYV
+#read -p "=== result above. press enter:" DUMMYV
+echo "=== result above."
 
 echo "=== 5.8 Fix filesystem mount ordering"
 echo "    umount /boot/efi (for UEFI)"
@@ -158,5 +162,5 @@ zfs snapshot bpool/BOOT/ubuntu@install
 zfs snapshot rpool/ROOT/ubuntu@install
 
 echo "=== done!"
-echo "=== type exit to leave the chroot environment"
-read -p "enter to exit chroot environment" DUMMYV
+echo "=== type \"exit\" to leave the chroot environment"
+# read -p "enter to exit chroot environment" DUMMYV
