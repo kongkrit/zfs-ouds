@@ -112,7 +112,7 @@ sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")([ tab]+)(.*)(")/\1\3\4/g' | \
 sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)([ tab]+)(")/\1\2\4/g' | \
 sed -E 's/^(#)(GRUB_TERMINAL=console)/\2/g' > ./grubby
 cp ./grubby /etc/default/grub
-rm ./grubby
+rm -f ./grubby
 
 echo "=== 5.5 update grub"
 update-grub
