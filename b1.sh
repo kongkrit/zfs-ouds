@@ -44,11 +44,12 @@ echo "*************************************"
 echo "*** DONE GATHERING INFO FROM USER ***"
 echo "*************************************"
 
-echo "=== add jonathonf zfs ppa"
+echo "=== adding jonathonf zfs ppa"
 add-apt-repository --yes ppa:jonathonf/zfs
 
 echo "=== 1.2 adding universe repo and update"
 apt-add-repository universe
+echo "=== 1.2 apt update"
 apt update
 
 echo "=== installing jonathonf/zfs" 
@@ -215,7 +216,7 @@ mount --rbind /sys  /mnt/sys
 #DISK2=/dev/disk/by-id/$DISK2
 
 echo "==="
-echo "=== 4.4 doing chroot, when bash prompt comes, execute c4.sh"
+echo "=== 4.4 doing chroot, when bash prompt comes, execute b4.sh"
 echo "==="
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
 echo "=== 4.4 done chroot"
