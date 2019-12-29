@@ -45,6 +45,7 @@ apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 #apt install --yes zfs-initramfs 
 
 echo "=== adding jonathonf zfs ppa"
+echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
 echo "=== installing jonathonf/zfs" 
 apt install --yes libelf-dev zfs-dkms
