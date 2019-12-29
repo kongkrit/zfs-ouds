@@ -27,6 +27,7 @@ read -p "=== 4.2 enter inface name (excluding colon):" INTF
 echo "=== ubuntu mirrors additions"
 read -p "   want to add fast mirrors to normal apt mirrors (recommended)? [Y/n]:" CONFIRMIT
 if [[ $CONFIRMIT == "" || $CONFIRMIT == "Y" || $CONFIRMIT == "y" ]]; then
+  echo "=== adding http://mirror.enzu.com/ubuntu and http://mirror.math.princeton.edu/pub/ubuntu to apt sources"
   MODAPT=1
 else
   MODAPT=0
