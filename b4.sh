@@ -57,14 +57,16 @@ echo "=== adding jonathonf zfs ppa"
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
 
-echo "=== autoconfig libssl in debconf"
-echo "libssl1.1 libssl1.1/restart-services string" | debconf-set-selections
-echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
-
 # read -p "enter to install initramfs:" DUMMYV
 echo "=== installing jonathonf/zfs: zfs-initramfs"
 apt install --yes zfs-initramfs
 # read -p "enter to install libelf-dev and zfs-dkms:" DUMMYV
+
+echo "=== autoconfig libssl in debconf"
+# from https://unix.stackexchange.com/questions/146283/how-to-prevent-prompt-that-ask-to-restart-services-when-installing-libpq-dev
+echo 'libssl1.1 libraries/restart-without-asking boolean true' | debconf-set-selections
+#echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
+
 echo "=== installing jonathonf/zfs: libelf-dev zfs-dkms"
 apt install --yes libelf-dev zfs-dkms
 #echo "=== systemctl stop zfs-zed"
