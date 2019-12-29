@@ -43,7 +43,7 @@ echo "=== 4.6 install HWE kernel on disks"
 apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 #apt install --yes linux-image-generic-hwe-18.04
 echo "=== install linux HWE kernel headers on disks"
-apt install --yes linux-headers-generic-hwe-18.04
+apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
 
 #read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
