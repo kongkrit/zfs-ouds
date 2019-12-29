@@ -42,6 +42,7 @@ apt install -y nano openssh-server
 echo "=== 4.6 install HWE kernel on disks"
 apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 
+read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
 
 echo "=== adding jonathonf zfs ppa"
