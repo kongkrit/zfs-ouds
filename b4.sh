@@ -16,7 +16,8 @@ passwd
 
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
-#apt update
+echo "=== 4.5 update the new repos"
+apt update
 
 echo "=== 4.5 configure locale--make sure en_US.UTF-8 is checked"
 #read -p "enter to start configuring locale:" DUMMYV
