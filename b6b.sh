@@ -37,9 +37,6 @@ else
     fi
 fi
 
-echo "=== upgrade to latest HWE kernel"
-apt install --install-recommends -y linux-generic-hwe-18.04
-
 echo "=== 6.8b UEFI"
 echo "=== 6.8b unmount /boot/efi"
 umount /boot/efi
