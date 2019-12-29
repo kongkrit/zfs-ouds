@@ -40,6 +40,10 @@ echo "=== 4.1 entered hostname as [$HOSTNAME]"
 read -p "4.1 Enter Fully Qualified Domain Name (FQDN) (blank if unsure):" FQDN
 echo "=== 4.1 entered FQDN as [$FQDN]"
 
+echo "=== 4.2 Configure the network interface:"
+ip addr show
+read -p "=== 4.2 enter inface name (excluding colon):" INTF
+
 echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
@@ -152,9 +156,9 @@ HOSTSENTRY="127.0.1.1	$FQDN $HOSTNAME"
 echo $HOSTSENTRY >> /mnt/etc/hosts
 echo "=== 4.1 appended [$HOSTSENTRY] to /mnt/etc/hosts"
 
-echo "=== 4.2 Configure the network interface:"
-ip addr show
-read -p "=== 4.2 enter inface name (excluding colon):" INTF
+echo "=== 4.2 Configure the network interface [${INTF}:]"
+# ip addr show
+# read -p "=== 4.2 enter inface name (excluding colon):" INTF
 echo "network:
   version: 2
   ethernets:
