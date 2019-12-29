@@ -139,7 +139,9 @@ zfs create -o com.sun:auto-snapshot=false  rpool/tmp
 chmod 1777 /mnt/tmp
 
 echo "=== 3.4 Install the minimal system:"
+echo "=== 3.4 debootstrap to /mnt"
 debootstrap bionic /mnt
+echo "=== 3.4 zfs set devices=off rpool"
 zfs set devices=off rpool
 
 echo "=== 4.1 configure machine name as [$HOSTNAME]"
