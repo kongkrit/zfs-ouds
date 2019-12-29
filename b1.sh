@@ -43,7 +43,7 @@ deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted
 deb http://mirror.enzu.com/ubuntu bionic-security main restricted
 deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted
 deb http://security.ubuntu.com/ubuntu bionic-security main restricted" \
- >> /etc/apt/sources.list
+ > /etc/apt/sources.list
 fi
 
 echo "=== list disks"
