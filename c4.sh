@@ -5,9 +5,9 @@ if [ $USER != "root" ]; then
         exit -1
 fi
 
-echo "****************"
-echo "*** in c4.sh ***"
-echo "****************"
+echo "**************************"
+echo "*** STARTING c4.sh NOW ***"
+echo "**************************"
 echo "=== DISK  is [$DISK]"
 echo "=== DISK2 is [$DISK2]"
 
