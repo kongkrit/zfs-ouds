@@ -24,6 +24,28 @@ echo "=== 4.2 Configure the network interface:"
 ip addr show
 read -p "=== 4.2 enter inface name (excluding colon):" INTF
 
+echo "=== ubuntu mirrors additions"
+read -p "   want to add fast mirrors to normal apt mirrors (recommended)? [Y/n]:" CONFIRMIT
+if [[ $CONFIRMIT == "" || $CONFIRMIT == "Y" || $CONFIRMIT == "y" ]]; then
+  MODAPT=1
+else
+  MODAPT=0
+fi
+
+if [ $MODAPT -eq 1 ]; then
+echo "# ubuntu archives
+deb http://mirror.enzu.com/ubuntu bionic main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-backports main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-backports main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-security main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
+ >> /etc/apt/sources.list
+fi
+
 echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
