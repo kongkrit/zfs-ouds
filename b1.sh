@@ -34,6 +34,7 @@ fi
 
 if [ $MODAPT -eq 1 ]; then
 echo "# ubuntu archives
+deb cdrom:[Ubuntu 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
 deb http://mirror.enzu.com/ubuntu bionic main restricted universe multiverse
 deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
 deb http://mirror.enzu.com/ubuntu bionic-updates main restricted universe multiverse
