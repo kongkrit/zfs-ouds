@@ -79,7 +79,7 @@ zfs --version
 # read -p "enter to continue:" DUMMYV
 
 echo "=== upgrade to latest HWE kernel"
-apt install --install-recommends -y linux-generic-hwe-18.04
+apt install --no-install-recommends -y linux-generic-hwe-18.04
 
 echo "=== 4.6 not needed for unencrypted disks"
 
