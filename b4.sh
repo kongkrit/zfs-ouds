@@ -194,9 +194,9 @@ echo "=== 5.8 set mountpoint for /tmp dataset:"
 zfs set mountpoint=legacy rpool/tmp
 echo rpool/tmp /tmp zfs nodev,relatime 0 0 >> /etc/fstab
 
-echo "=== 6.1 snapshot initial installation"
-zfs snapshot bpool/BOOT/ubuntu@install
-zfs snapshot rpool/ROOT/ubuntu@install
+echo "=== 6.1 (NOT) snapshot initial installation"
+#zfs snapshot bpool/BOOT/ubuntu@install
+#zfs snapshot rpool/ROOT/ubuntu@install
 
 echo "=== done!"
 echo "=== type \"exit\" to leave the chroot environment"
