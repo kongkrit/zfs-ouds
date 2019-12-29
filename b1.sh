@@ -225,7 +225,7 @@ deb http://mirror.math.princeton.edu/pub/ubuntu bionic-backports main restricted
 deb http://mirror.enzu.com/ubuntu bionic-security main restricted universe multiverse
 deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
- >> /etc/apt/sources.list
+ > /mnt/etc/apt/sources.list
 else
 echo "# ubuntu repos
 deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
@@ -235,7 +235,7 @@ deb http://us.archive.ubuntu.com/ubuntu bionic-updates main restricted universe 
 deb http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
 deb http://us.archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
- >> /mnt/etc/apt/sources.list
+ > /mnt/etc/apt/sources.list
 fi
 
 echo "=== 4.4 Bind the virtual filesystems from the LiveCD environment to the new system"
