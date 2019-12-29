@@ -45,6 +45,7 @@ echo "*** DONE GATHERING INFO FROM USER ***"
 echo "*************************************"
 
 echo "=== adding jonathonf zfs ppa"
+echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
 
 echo "=== 1.2 adding universe repo and update"
