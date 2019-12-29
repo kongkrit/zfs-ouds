@@ -33,8 +33,9 @@ apt install --yes debootstrap gdisk zfs-initramfs
 # systemctl start zfs-zed
 # zfs --version
 
-echo "=== 4.1 configure machine name as [$HOSTNAME]"
-read -p "4.1 Enter hostname:" HOSTNAME
+echo "=== 4.1 configure new machine name"
+echo "===     current name is [$HOSTNAME]"
+read -p "4.1 Enter new hostname:" HOSTNAME
 echo "=== 4.1 entered hostname as [$HOSTNAME]"
 read -p "4.1 Enter Fully Qualified Domain Name (FQDN) (blank if unsure):" FQDN
 echo "=== 4.1 entered FQDN as [$FQDN]"
