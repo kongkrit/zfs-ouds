@@ -9,29 +9,9 @@ echo "********************"
 echo "*** IN c1.sh now ***"
 echo "********************"
 
-echo "=== 1.2 adding universe repo and update"
-apt-add-repository universe
-apt update
-echo "=== 1.3 install openssh-server"
-apt install -y openssh-server
-echo "======================="
-echo "=== note IP address ==="
-echo "======================="
-ip a
-# read -p "enter to continue:" DUMMYV
-
-echo "=== 1.5 install debootstrap gdisk and zfs"
-# add-apt-repository --yes ppa:jonathonf/zfs
-apt install --yes debootstrap gdisk zfs-initramfs
-
-# apt update
-# echo === installing jonathonf/zfs 
-# apt install --yes libelf-dev zfs-dkms
-# systemctl stop zfs-zed
-# modprobe -r zfs
-# modprobe zfs
-# systemctl start zfs-zed
-# zfs --version
+echo "*********************************"
+echo "*** REQUIRING USER INPUT HERE ***"
+echo "*********************************"
 
 echo "=== 4.1 configure new machine name"
 echo "===     current name is [$HOSTNAME]"
@@ -59,6 +39,34 @@ if [ $CONFIRMIT != "Y" ]; then
   echo "=== not Y, exiting"
   exit -1
 fi
+
+echo "*************************************"
+echo "*** DONE GATHERING INFO FROM USER ***"
+echo "*************************************"
+
+echo "=== 1.2 adding universe repo and update"
+apt-add-repository universe
+apt update
+echo "=== 1.3 install openssh-server"
+apt install -y openssh-server
+echo "======================="
+echo "=== note IP address ==="
+echo "======================="
+ip a
+# read -p "enter to continue:" DUMMYV
+
+echo "=== 1.5 install debootstrap gdisk and zfs"
+# add-apt-repository --yes ppa:jonathonf/zfs
+apt install --yes debootstrap gdisk zfs-initramfs
+
+# apt update
+# echo === installing jonathonf/zfs 
+# apt install --yes libelf-dev zfs-dkms
+# systemctl stop zfs-zed
+# modprobe -r zfs
+# modprobe zfs
+# systemctl start zfs-zed
+# zfs --version
 
 echo "=== 2.2 formatting both disks"
 sgdisk --zap-all $DISK
