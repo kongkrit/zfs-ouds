@@ -190,7 +190,7 @@ mount --rbind /sys  /mnt/sys
 #DISK2=/dev/disk/by-id/$DISK2
 
 echo "==="
-echo "=== 4.4 doing chroot, when bash prompt comes, execute s4.sh"
+echo "=== 4.4 doing chroot, when bash prompt comes, execute c4.sh"
 echo "==="
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
 echo "=== 4.4 done chroot"
