@@ -18,6 +18,25 @@ read -p "=== enter name of disk2 of 2:" DISK2
 DISK2=/dev/disk/by-id/$DISK2
 echo "==> disk2 is $DISK2"
 
+echo "=== 8.2 install more software"
+echo "    0. don't install anything, run ubuntu-minimal"
+echo "    1. install ubuntu-standard"
+echo "    2. install ubuntu-server"
+
+read -p "What do you want to install?" UCHOICE
+if test $UCHOICE -eq 1; then
+    echo "entered 1"
+    echo "=== install ubuntu-standard"
+else
+    if test $UCHOICE -eq 2; then
+        echo "entered 2"
+        echo "=== install ubuntu-server"
+    else
+        echo "did not enter 1 or 2"
+        echo "=== install nothing"
+    fi
+fi
+
 echo "=== 6.8b UEFI"
 echo "=== 6.8b unmount /boot/efi"
 umount /boot/efi
@@ -36,22 +55,22 @@ echo "=== 8.1 upgrading current minimal system"
 apt dist-upgrade --yes
 
 echo "=== 8.2 install more software"
-echo "    0. don't install anything, run ubuntu-minimal"
-echo "    1. install ubuntu-standard"
-echo "    2. install ubuntu-server"
+# echo "    0. don't install anything, run ubuntu-minimal"
+# echo "    1. install ubuntu-standard"
+# echo "    2. install ubuntu-server"
 
-read -p "What do you want to install?" UCHOICE
+# read -p "What do you want to install?" UCHOICE
 if test $UCHOICE -eq 1; then
-    echo "entered 1"
+#    echo "entered 1"
     echo "=== install ubuntu-standard"
     apt install -y ubuntu-standard
 else
     if test $UCHOICE -eq 2; then
-        echo "entered 2"
+#        echo "entered 2"
         echo "=== install ubuntu-server"
         apt install -y ubuntu-server
     else
-        echo "did not enter 1 or 2"
+#        echo "did not enter 1 or 2"
         echo "=== install nothing"
     fi
 fi
