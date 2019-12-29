@@ -77,6 +77,9 @@ echo "=== zfs --version"
 zfs --version
 # read -p "enter to continue:" DUMMYV
 
+echo "=== upgrade to latest HWE kernel"
+apt install --install-recommends -y linux-generic-hwe-18.04
+
 echo "=== 4.6 not needed for unencrypted disks"
 
 echo "=== 4.8.0 install dosfstools"
