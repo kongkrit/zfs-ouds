@@ -53,17 +53,21 @@ apt install -y software-properties-common
 echo "=== adding jonathonf zfs ppa"
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
-echo "=== installing jonathonf/zfs" 
+
+echo "=== autoconfig libssl in debconf"
+echo "libssl1.1 libssl1.1/restart-services string" | debconf-set-selections
+echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
+echo "=== installing jonathonf/zfs"
 apt install --yes libelf-dev zfs-dkms
-echo "=== systemctl stop zfs-zed"
-systemctl stop zfs-zed
-echo "=== modprobe -r zfs"
-modprobe -r zfs
-echo "=== modprobe zfs"
-modprobe zfs
-echo "=== systemctl start zfs-zed"
-systemctl start zfs-zed
-echo "=== zfs --version"
+#echo "=== systemctl stop zfs-zed"
+#systemctl stop zfs-zed
+#echo "=== modprobe -r zfs"
+#modprobe -r zfs
+#echo "=== modprobe zfs"
+#modprobe zfs
+#echo "=== systemctl start zfs-zed"
+#systemctl start zfs-zed
+#echo "=== zfs --version"
 zfs --version
 read -p "enter to continue:" DUMMYV
 
