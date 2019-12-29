@@ -33,17 +33,15 @@ else
 fi
 
 if [ $MODAPT -eq 1 ]; then
-echo "# ubuntu archives
+echo "# ubuntu repos
 deb cdrom:[Ubuntu 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
-deb http://mirror.enzu.com/ubuntu bionic main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
-deb http://mirror.enzu.com/ubuntu bionic-updates main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted universe multiverse
-deb http://mirror.enzu.com/ubuntu bionic-backports main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-backports main restricted universe multiverse
-deb http://mirror.enzu.com/ubuntu bionic-security main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
+deb http://mirror.enzu.com/ubuntu bionic main restricted
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted
+deb http://mirror.enzu.com/ubuntu bionic-updates main restricted
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted
+deb http://mirror.enzu.com/ubuntu bionic-security main restricted
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted" \
  >> /etc/apt/sources.list
 fi
 
@@ -215,7 +213,20 @@ echo "network:
 echo "=== 4.2 wrote /mnt/etc/netplan/01-netcfg.yaml"
 
 echo "=== 4.3 Configure the package sources in /mnt/etc/apt/sources.list:"
-echo "# ubuntu archives
+if [ $MODAPT -eq 1 ]; then
+echo "# ubuntu repos
+deb http://mirror.enzu.com/ubuntu bionic main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-backports main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-backports main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-security main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
+ >> /etc/apt/sources.list
+else
+echo "# ubuntu repos
 deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
 deb http://us.archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
@@ -224,6 +235,7 @@ deb http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe m
 deb http://us.archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
 deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
  >> /mnt/etc/apt/sources.list
+fi
 
 echo "=== 4.4 Bind the virtual filesystems from the LiveCD environment to the new system"
 mount --rbind /dev  /mnt/dev
