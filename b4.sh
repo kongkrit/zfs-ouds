@@ -45,6 +45,8 @@ apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
 
+echo "=== apt install -y software-properties-common"
+apt install -y software-properties-common
 echo "=== adding jonathonf zfs ppa"
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
