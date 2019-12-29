@@ -16,7 +16,7 @@ passwd
 
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
-apt update
+#apt update
 
 echo "=== 4.5 configure locale--make sure en_US.UTF-8 is checked"
 #read -p "enter to start configuring locale:" DUMMYV
@@ -39,7 +39,7 @@ dpkg-reconfigure -f noninteractive tzdata
 echo "=== 4.5 install nano and openssh-server"
 apt install -y nano openssh-server
 
-echo "=== 4.6 install HWE kernel on disks"
+echo "=== 4.6 install linux HWE kernel on disks"
 apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 #apt install --yes linux-image-generic-hwe-18.04
 echo "=== install linux HWE kernel headers on disks"
