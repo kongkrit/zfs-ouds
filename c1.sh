@@ -6,7 +6,7 @@ if [ $USER != "root" ]; then
 fi
 
 echo "********************"
-echo "*** IN s1.sh now ***"
+echo "*** IN c1.sh now ***"
 echo "********************"
 
 echo "=== 1.2 adding universe repo and update"
