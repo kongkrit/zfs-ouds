@@ -61,9 +61,9 @@ echo "libssl1.1 libssl1.1/restart-services string" | debconf-set-selections
 echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
 echo "=== installing jonathonf/zfs"
 
-read -p "enter to install initramfs:" DUMMYV
+# read -p "enter to install initramfs:" DUMMYV
 apt install --yes zfs-initramfs
-read -p "enter to install libelf-dev and zfs-dkms:" DUMMYV
+# read -p "enter to install libelf-dev and zfs-dkms:" DUMMYV
 apt install --yes libelf-dev zfs-dkms
 #echo "=== systemctl stop zfs-zed"
 #systemctl stop zfs-zed
@@ -73,9 +73,9 @@ apt install --yes libelf-dev zfs-dkms
 #modprobe zfs
 #echo "=== systemctl start zfs-zed"
 #systemctl start zfs-zed
-#echo "=== zfs --version"
+echo "=== zfs --version"
 zfs --version
-read -p "enter to continue:" DUMMYV
+# read -p "enter to continue:" DUMMYV
 
 echo "=== 4.6 not needed for unencrypted disks"
 
