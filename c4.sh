@@ -114,6 +114,10 @@ sed -E 's/^(#)(GRUB_TERMINAL=console)/\2/g' > /tmp/grubby
 cp /tmp/grubby /etc/default/grub
 rm -f /tmp/grubby
 
+echo "=== 5.4 showing /etc/default/grub"
+cat /etc/default/grub
+read -p "enter to continue:" DUMMYV
+
 echo "=== 5.5 update grub"
 update-grub
 echo "=== 5.5 Ignore errors from osprober, if present."
