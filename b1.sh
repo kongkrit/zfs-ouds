@@ -64,7 +64,7 @@ echo "=== systemctl start zfs-zed"
 systemctl start zfs-zed
 echo "=== zfs --version"
 zfs --version
-read -p "enter to continue:" DUMMYV
+# read -p "enter to continue:" DUMMYV
 
 echo "=== 1.3 install openssh-server"
 apt install -y openssh-server
