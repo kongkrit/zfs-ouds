@@ -17,4 +17,4 @@ usermod -a -G adm,cdrom,dip,lpadmin,plugdev,sambashare,sudo $USERNAME
 
 echo "=== showing ip address ==="
 ip addr show
-echo "=== 6.7 done -- continue with c6b.sh -- from ssh ${USERNAME}@ipaddress"
+echo "=== 6.7 done -- continue with b6b.sh -- from ssh ${USERNAME}@ipaddress"
