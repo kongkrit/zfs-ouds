@@ -202,6 +202,11 @@ echo "=== 6.1 (NOT) snapshot initial installation"
 #zfs snapshot bpool/BOOT/ubuntu@install
 #zfs snapshot rpool/ROOT/ubuntu@install
 
+echo "=== saving the name of DISK1 and DISK2 to disk1_name and disk2_name"
+echo $DISK > /disk1_name
+echo $DISK2 > /disk2_name
+
 echo "=== done!"
 echo "=== type \"exit\" to leave the chroot environment"
+
 # read -p "enter to exit chroot environment" DUMMYV
