@@ -1,0 +1,8 @@
+deb cdrom:[Ubuntu-Server 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
+deb http://mirror.enzu.com/ubuntu bionic main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted universe multiverse
+deb http://mirror.enzu.com/ubuntu bionic-security main restricted universe multiverse
+deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse
