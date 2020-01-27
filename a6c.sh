@@ -7,7 +7,7 @@ fi
 
 echo "=== 6.6 Create a user account:"
 read -p "   enter admin username:" USERNAME
-zfs create rpool/home/$USERNAME
+#zfs create rpool/home/$USERNAME
 adduser $USERNAME --gecos "${USERNAME},,,"
 cp -a /etc/skel/. /home/$USERNAME
 chown -R $USERNAME:$USERNAME /home/$USERNAME
