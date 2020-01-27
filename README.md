@@ -6,10 +6,9 @@ Based on ZFS on Linux wiki at https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.0
 - open terminal
 ```
 sudo -i
-apt install -y curl
-curl -L https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a1.sh > a1.sh
-curl -L https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a4.sh > a4.sh
-curl -L https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a6c.sh > a6c.sh
+GET https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a1.sh > a1.sh
+GET https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a4.sh > a4.sh
+GET https://raw.githubusercontent.com/kongkrit/zfs-ouds/master/a6c.sh > a6c.sh
 chmod +x a*.sh
 ./a1.sh
 ```
