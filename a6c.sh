@@ -56,16 +56,25 @@ else
 fi
 
 echo "=== 6.8b UEFI"
-echo "=== 6.8b unmount /boot/efi"
+echo "=== 6.8b1 mount /boot/efi /boot/efi2"
+mount /boot/efi
+mount /boot/efi2
+
+echo "=== 6.8b2 rsync GRUB from disk1 to disk2"
+#dd if=${DISK}-part2 \
+#   of=${DISK2}-part2
+rsync -Rai --stats --human-readable --delete --verbose --progress /boot/efi/./ /boot/efi2
+
+echo "=== 6.8b3 unmount /boot/efi /boot/efi2"
 umount /boot/efi
-echo "=== 6.8b copy GRUB from disk1 to disk2"
-dd if=${DISK}-part2 \
-   of=${DISK2}-part2
+umount /boot/efi2
+
 echo "=== 6.8b install grub to disk2"
 efibootmgr -c -g -d $DISK2 \
     -p 2 -L "ubuntu-2" -l '\EFI\ubuntu\grubx64.efi'
-echo "=== 6.8b remount /boot/efi"
+echo "=== 6.8b remount /boot/efi /boot/efi2"
 mount /boot/efi
+mount /boot/efi2
 
 echo "=== 7 configure swap (SKIPPED)"
 
