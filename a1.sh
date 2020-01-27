@@ -249,7 +249,7 @@ mount --rbind /sys  /mnt/sys
 echo "=== copying $NEXT4FILE to new root"
 cp $NEXT4FILE /mnt
 echo "=== copying $NEXT6CFILE to new root"
-CP $NEXT6CFILE /mnt
+cp $NEXT6CFILE /mnt
 
 echo "==="
 echo "=== 4.4 doing chroot, when bash prompt comes, execute a4.sh"
