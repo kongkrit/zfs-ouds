@@ -192,21 +192,21 @@ echo "=== 5.8 set mountpoint for bpool/BOOT/ubuntu"
 zfs set mountpoint=legacy bpool/BOOT/ubuntu
 echo bpool/BOOT/ubuntu /boot zfs \
     nodev,relatime,x-systemd.requires=zfs-import-bpool.service 0 0 >> /etc/fstab
-echo "=== 5.8 set mountpoint for rpool/var/log"
-zfs set mountpoint=legacy rpool/var/log
-echo rpool/var/log /var/log zfs nodev,relatime 0 0 >> /etc/fstab
-echo "=== 5.8 set mountpoint for rpool/var/spool"
-zfs set mountpoint=legacy rpool/var/spool
-echo rpool/var/spool /var/spool zfs nodev,relatime 0 0 >> /etc/fstab
+#echo "=== 5.8 set mountpoint for rpool/var/log"
+#zfs set mountpoint=legacy rpool/var/log
+#echo rpool/var/log /var/log zfs nodev,relatime 0 0 >> /etc/fstab
+#echo "=== 5.8 set mountpoint for rpool/var/spool"
+#zfs set mountpoint=legacy rpool/var/spool
+#echo rpool/var/spool /var/spool zfs nodev,relatime 0 0 >> /etc/fstab
 
-echo "=== 5.8 set mountpoint for /var/tmp dataset:"
-zfs set mountpoint=legacy rpool/var/tmp
-echo rpool/var/tmp /var/tmp zfs nodev,relatime 0 0 >> /etc/fstab
-echo "=== 5.8 set mountpoint for /tmp dataset:"
-zfs set mountpoint=legacy rpool/tmp
-echo rpool/tmp /tmp zfs nodev,relatime 0 0 >> /etc/fstab
+#echo "=== 5.8 set mountpoint for /var/tmp dataset:"
+#zfs set mountpoint=legacy rpool/var/tmp
+#echo rpool/var/tmp /var/tmp zfs nodev,relatime 0 0 >> /etc/fstab
+#echo "=== 5.8 set mountpoint for /tmp dataset:"
+#zfs set mountpoint=legacy rpool/tmp
+#echo rpool/tmp /tmp zfs nodev,relatime 0 0 >> /etc/fstab
 
-echo "=== 6.1 (NOT) snapshot initial installation"
+#echo "=== 6.1 (NOT) snapshot initial installation"
 #zfs snapshot bpool/BOOT/ubuntu@install
 #zfs snapshot rpool/ROOT/ubuntu@install
 
