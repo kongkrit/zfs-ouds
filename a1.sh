@@ -40,6 +40,25 @@ echo "=== 4.2 Configure the network interface:"
 ip addr show
 read -p "=== 4.2 enter inface name (excluding colon):" INTF
 
+echo -n "=== Enter root password (1st time):"
+read -s ROOTPASS
+echo ""
+echo -n "=== Enter root password (2nd time):"
+read -s ROOTPASS2
+echo ""
+
+if [[ -z "$ROOTPASS" ]]; then
+  echo "empty password!"
+  exit -1
+fi
+
+if [[ "$ROOTPASS" == "$ROOTPASS2" ]]; then
+  echo "passwords equal"
+else
+  echo "passwords not equal. error."
+  exit -1
+fi
+
 echo "=== ubuntu mirrors additions"
 read -p "   want to add fast mirrors to normal apt mirrors (recommended)? [Y/n]:" CONFIRMIT
 if [[ $CONFIRMIT == "" || $CONFIRMIT == "Y" || $CONFIRMIT == "y" ]]; then
@@ -255,7 +274,7 @@ echo "==="
 echo "=== 4.4 doing chroot to /mnt and execute /a4.sh"
 echo "==="
 #chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
-chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash /a4.sh
+chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS bash /a4.sh
 echo "=== 4.4 done chroot"
 
 echo "=== 6.3 unmount all filesystems in the LiveCD environment:"
