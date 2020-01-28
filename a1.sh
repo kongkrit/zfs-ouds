@@ -139,15 +139,6 @@ echo "=== 2.3b create FAT for EFI partitions"
 mkfs.fat -F 32 -n EFI "${DISK}-part1"
 mkfs.fat -F 32 -n EFI "${DISK2}-part1"
 
-echo "=== 2.4 creating boot pool (mirrored)"
-#zpool create -o ashift=13 \
-#    -O acltype=posixacl -O canmount=off -O compression=lz4 -O atime=off -O xattr=sa \
-#    -O mountpoint=/ -R /mnt bpool mirror ${DISK}-part2 ${DISK2}-part2
-zpool create -o ashift=13 \
-    -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
-    -O devices=off -O mountpoint=/boot \
-    -R /mnt -f bpool mirror ${DISK}-part2 ${DISK2}-part2
-
 echo "=== 2.5a creating root pool mirror (unencrypted)"
 #zpool create -o ashift=13 \
 #    -O acltype=posixacl -O canmount=off -O compression=lz4 \
@@ -156,7 +147,17 @@ echo "=== 2.5a creating root pool mirror (unencrypted)"
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 \
     -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
-    -O devices=off -O mountpoint=/ -R /mnt -f rpool mirror ${DISK}-part3 ${DISK2}-part3
+    -O devices=off -O mountpoint= -R /mnt -f \
+    rpool mirror ${DISK}-part3 ${DISK2}-part3
+
+echo "=== 2.4 creating boot pool (mirrored)"
+#zpool create -o ashift=13 \
+#    -O acltype=posixacl -O canmount=off -O compression=lz4 -O atime=off -O xattr=sa \
+#    -O mountpoint=/ -R /mnt bpool mirror ${DISK}-part2 ${DISK2}-part2
+zpool create -o ashift=13 \
+    -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
+    -O devices=off -O mountpoint=/boot -R /mnt -f \
+    bpool mirror ${DISK}-part2 ${DISK2}-part2
 
 #echo "=== 3.1 Create filesystem datasets to act as containers"
 #zfs create -o canmount=off -o mountpoint=none rpool/ROOT
