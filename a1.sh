@@ -167,6 +167,7 @@ zpool create -o ashift=13 \
 #zfs mount rpool/ROOT/ubuntu
 #zfs create -o canmount=noauto -o mountpoint=/boot bpool/BOOT/ubuntu
 #zfs mount bpool/BOOT/ubuntu
+echo "=== 3.2X mount bpool and rpool"
 zfs mount bpool
 zfs mount rpool
 
