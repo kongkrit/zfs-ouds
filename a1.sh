@@ -147,7 +147,7 @@ echo "=== 2.5a creating root pool mirror (unencrypted)"
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 \
     -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
-    -O devices=off -O mountpoint=/ -R /mnt -f \
+    -O canmount=noauto -O mountpoint=/ -R /mnt -f \
     rpool mirror ${DISK}-part3 ${DISK2}-part3
 
 echo "=== 2.4 creating boot pool (mirrored)"
@@ -156,7 +156,7 @@ echo "=== 2.4 creating boot pool (mirrored)"
 #    -O mountpoint=/ -R /mnt bpool mirror ${DISK}-part2 ${DISK2}-part2
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
-    -O devices=off -O mountpoint=/boot -R /mnt -f \
+    -O canmount=noauto -O mountpoint=/boot -R /mnt -f \
     bpool mirror ${DISK}-part2 ${DISK2}-part2
 
 echo "...bashing..."
