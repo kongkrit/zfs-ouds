@@ -117,15 +117,18 @@ apt install --yes debootstrap gdisk
 echo "=== 2.2 formatting both disks"
 sgdisk --zap-all $DISK
 sgdisk --zap-all $DISK2
+#wipefs --all $DISK
+#wipefs --all $DISK2
+
 echo "=== 2.3 creating paritions for UEFI booting (EFI partition)"
-sgdisk -n1:1M:+512M -t2:EF00 $DISK
-sgdisk -n1:1M:+512M -t2:EF00 $DISK2
+sgdisk -n1:1M:+512M -t1:EF00 $DISK
+sgdisk -n1:1M:+512M -t1:EF00 $DISK2
 echo "=== 2.3 creating boot pool"
-sgdisk -n2:0:+512M -t3:BF01 $DISK
-sgdisk -n2:0:+512M -t3:BF01 $DISK2
+sgdisk -n2:0:+512M -t2:BF01 $DISK
+sgdisk -n2:0:+512M -t2:BF01 $DISK2
 echo "=== 2.3a creating root pool (unencrypted)"
-sgdisk     -n3:0:0        -t4:BF01 $DISK
-sgdisk     -n3:0:0        -t4:BF01 $DISK2
+sgdisk     -n3:0:0        -t3:BF01 $DISK
+sgdisk     -n3:0:0        -t3:BF01 $DISK2
 
 echo "=== 2.3a done, issue udevadm settle"
 udevadm settle
