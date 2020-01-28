@@ -156,7 +156,7 @@ echo "=== 2.5a creating root pool mirror (unencrypted)"
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 \
     -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
-    -O devices=off -O mountpoint=/ -R /mnt rpool mirror ${DISK}-part3 ${DISK2}-part3
+    -O devices=off -O mountpoint=/ -R /mnt -f rpool mirror ${DISK}-part3 ${DISK2}-part3
 
 #echo "=== 3.1 Create filesystem datasets to act as containers"
 #zfs create -o canmount=off -o mountpoint=none rpool/ROOT
