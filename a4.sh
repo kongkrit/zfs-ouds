@@ -90,6 +90,7 @@ echo "=== 4.8.0 install dosfstools"
 apt install -y dosfstools
 echo "=== 4.8.1 make EFI partition"
 mkdosfs -F 32 -s 1 -n EFI ${DISK}-part2
+mkdosfs -F 32 -s 1 -n EFI ${DISK2}-part2
 echo "=== 4.8.2 make EFI directory"
 mkdir /boot/efi
 mkdir /boot/efi2
