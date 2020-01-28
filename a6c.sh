@@ -60,12 +60,15 @@ echo "=== 6.8b1 mount /boot/efi /boot/efi2"
 mount /boot/efi
 mount /boot/efi2
 
-echo "=== 6.8b2 rsync GRUB from disk1 to disk2"
+echo "=== 6.8b2 install rsync"
+apt install -y rsync
+
+echo "=== 6.8b3 rsync GRUB from disk1 to disk2"
 #dd if=${DISK}-part2 \
 #   of=${DISK2}-part2
 rsync -Rai --stats --human-readable --delete --verbose --progress /boot/efi/./ /boot/efi2
 
-echo "=== 6.8b3 unmount /boot/efi /boot/efi2"
+echo "=== 6.8b4 unmount /boot/efi /boot/efi2"
 umount /boot/efi
 umount /boot/efi2
 
