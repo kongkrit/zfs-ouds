@@ -12,7 +12,7 @@ echo "=== DISK  is [$DISK]"
 echo "=== DISK2 is [$DISK2]"
 
 echo "=== 4.9 setting root password"
-passwd
+echo "root:$ROOTPASS" | chpasswd
 
 echo "=== 4.5 configure basic system environment"
 ln -s /proc/self/mounts /etc/mtab
