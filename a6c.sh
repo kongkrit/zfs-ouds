@@ -13,6 +13,8 @@ cp -a /etc/skel/. /home/$USERNAME
 chown -R $USERNAME:$USERNAME /home/$USERNAME
 
 echo "=== 6.7 Add [$USERNAME] to the default set groups for an administrator:"
+# adm=monitor system log, cdrom=cdrom access, dip=dial modem access,
+# lpadmin=config printer, plugdev=ext storage device access, 
 usermod -a -G adm,cdrom,dip,lpadmin,plugdev,sambashare,sudo $USERNAME
 
 echo "=== showing ip address ==="
