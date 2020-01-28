@@ -190,8 +190,11 @@ umount /boot/efi
 umount /boot/efi2
 
 echo "=== 5.8 set mountpoint for bpool/BOOT/ubuntu"
-zfs set mountpoint=legacy bpool/BOOT/ubuntu
-echo bpool/BOOT/ubuntu /boot zfs \
+#zfs set mountpoint=legacy bpool/BOOT/ubuntu
+zfs set mountpoint=legacy bpool
+#echo bpool/BOOT/ubuntu /boot zfs \
+#    nodev,relatime,x-systemd.requires=zfs-import-bpool.service 0 0 >> /etc/fstab
+echo bpool /boot zfs \
     nodev,relatime,x-systemd.requires=zfs-import-bpool.service 0 0 >> /etc/fstab
 #echo "=== 5.8 set mountpoint for rpool/var/log"
 #zfs set mountpoint=legacy rpool/var/log
