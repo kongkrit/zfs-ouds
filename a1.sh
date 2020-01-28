@@ -159,6 +159,10 @@ zpool create -o ashift=13 \
     -O devices=off -O mountpoint=/boot -R /mnt -f \
     bpool mirror ${DISK}-part2 ${DISK2}-part2
 
+echo "...bashing..."
+bash -
+echo "...done bashing..."
+
 #echo "=== 3.1 Create filesystem datasets to act as containers"
 #zfs create -o canmount=off -o mountpoint=none rpool/ROOT
 #zfs create -o canmount=off -o mountpoint=none bpool/BOOT
