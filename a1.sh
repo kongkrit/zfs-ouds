@@ -159,9 +159,9 @@ zpool create -o ashift=13 \
     -O canmount=noauto -O mountpoint=/boot -R /mnt -f \
     bpool mirror ${DISK}-part2 ${DISK2}-part2
 
-echo "...bashing..."
-bash -
-echo "...done bashing..."
+#echo "...bashing..."
+#bash -
+#echo "...done bashing..."
 
 #echo "=== 3.1 Create filesystem datasets to act as containers"
 #zfs create -o canmount=off -o mountpoint=none rpool/ROOT
@@ -172,9 +172,10 @@ echo "...done bashing..."
 #zfs mount rpool/ROOT/ubuntu
 #zfs create -o canmount=noauto -o mountpoint=/boot bpool/BOOT/ubuntu
 #zfs mount bpool/BOOT/ubuntu
-echo "=== 3.2X mount bpool and rpool"
-zfs mount bpool
-zfs mount rpool
+
+#echo "=== 3.2X mount bpool and rpool"
+#zfs mount bpool
+#zfs mount rpool
 
 #echo "=== 3.3 Create datasets:"
 #echo "=== 3.3 exclude /var/tmp /var/cache from snapshots"1
