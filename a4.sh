@@ -89,16 +89,16 @@ echo "=== 4.6 not needed for unencrypted disks"
 echo "=== 4.8.0 install dosfstools"
 apt install -y dosfstools
 echo "=== 4.8.1 make EFI partition"
-mkdosfs -F 32 -s 1 -n EFI ${DISK}-part2
-mkdosfs -F 32 -s 1 -n EFI ${DISK2}-part2
+mkdosfs -F 32 -s 1 -n EFI ${DISK}-part1
+mkdosfs -F 32 -s 1 -n EFI ${DISK2}-part1
 echo "=== 4.8.2 make EFI directory"
 mkdir /boot/efi
 mkdir /boot/efi2
 
 echo "=== 4.8.3 add EFI partitions to /etc/fstab"
-echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK}-part2) \
+echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK}-part1) \
     /boot/efi vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
-echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK2}-part2) \
+echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK2}-part1) \
     /boot/efi2 vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
 
 echo "=== 4.8.4 mount /boot/efi and /boot/efi2"
