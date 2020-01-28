@@ -153,8 +153,18 @@ echo "    Set: GRUB_TIMEOUT=5"
 echo "    Below GRUB_TIMEOUT, add: GRUB_RECORDFAIL_TIMEOUT=5"
 echo "    Remove quiet and splash from: GRUB_CMDLINE_LINUX_DEFAULT"
 echo "    Uncomment: GRUB_TERMINAL=console"
+#cat /etc/default/grub | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX=")/\1root=ZFS=rpool\/ROOT\/ubuntu /g' | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX=")(.*)([ tab]+)(")/\1\2\4/g' | \
+#sed -E 's/(^GRUB_TIMEOUT_STYLE=hidden)/#\1/g' | \
+#sed -E 's/(^GRUB_TIMEOUT=)[0-9]+$/\15\nGRUB_RECORDFAIL_TIMEOUT=5/g' | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(quiet)(.*)(")/\1\2\4\5/g' | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(splash)(.*)(")/\1\2\4\5/g' | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")([ tab]+)(.*)(")/\1\3\4/g' | \
+#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)([ tab]+)(")/\1\2\4/g' | \
+#sed -E 's/^(#)(GRUB_TERMINAL=console)/\2/g' > /tmp/grubby
 cat /etc/default/grub | \
-sed -E 's/(^GRUB_CMDLINE_LINUX=")/\1root=ZFS=rpool\/ROOT\/ubuntu /g' | \
+sed -E 's/(^GRUB_CMDLINE_LINUX=")/\1root=ZFS=rpool /g' | \
 sed -E 's/(^GRUB_CMDLINE_LINUX=")(.*)([ tab]+)(")/\1\2\4/g' | \
 sed -E 's/(^GRUB_TIMEOUT_STYLE=hidden)/#\1/g' | \
 sed -E 's/(^GRUB_TIMEOUT=)[0-9]+$/\15\nGRUB_RECORDFAIL_TIMEOUT=5/g' | \
