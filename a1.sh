@@ -241,10 +241,10 @@ echo "=== 4.2 wrote /mnt/etc/netplan/01-netcfg.yaml"
 echo "=== 4.3 Configure the package sources in /mnt/etc/apt/sources.list:"
 if [ $MODAPT -eq 1 ]; then
 echo "# ubuntu repos
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-backports main restricted universe multiverse
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted universe multiverse" \
+deb $FAST_MIRROR bionic main restricted universe multiverse
+deb $FAST_MIRROR bionic-updates main restricted universe multiverse
+deb $FAST_MIRROR bionic-backports main restricted universe multiverse
+deb $FAST_MIRROR bionic-security main restricted universe multiverse" \
  > /mnt/etc/apt/sources.list
 else
 echo "# ubuntu repos
