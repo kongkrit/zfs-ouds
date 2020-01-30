@@ -61,20 +61,27 @@ fi
 
 echo "=== ubuntu mirrors additions"
 read -p "   want to add fast mirrors to normal apt mirrors (recommended)? [Y/n]:" CONFIRMIT
+FAST_MIRROR="http://mirror.math.princeton.edu/pub/ubuntu"
 if [[ $CONFIRMIT == "" || $CONFIRMIT == "Y" || $CONFIRMIT == "y" ]]; then
-  echo "=== adding http://mirror.math.princeton.edu/pub/ubuntu to apt sources"
+  echo "=== press enter to add recommended URL to apt sources or enter your own URL:"
+  read -p "   enter mirror URL [$FAST_MIRROR]: " MIRROR_URL
+  if ![[ -z "$MIRROR_URL" ]]; then
+    FAST_MIRROR=$MIRROR_URL
+  fi
+  echo "=== using mirror [$FAST_MIRROR]"
   MODAPT=1
 else
   MODAPT=0
 fi
 
 if [ $MODAPT -eq 1 ]; then
-echo "# ubuntu repos
-deb cdrom:[Ubuntu 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted
-deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted" \
- > /etc/apt/sources.list
+  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
+#echo "# ubuntu repos
+#deb cdrom:[Ubuntu 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
+#deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted
+#deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted
+#deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted" \
+# > /etc/apt/sources.list
 fi
 
 echo "=== list disks"
