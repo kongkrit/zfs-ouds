@@ -65,7 +65,7 @@ FAST_MIRROR="http://mirror.math.princeton.edu/pub/ubuntu"
 if [[ $CONFIRMIT == "" || $CONFIRMIT == "Y" || $CONFIRMIT == "y" ]]; then
   echo "=== press enter to add recommended URL to apt sources or enter your own URL:"
   read -p "   enter mirror URL [$FAST_MIRROR]: " MIRROR_URL
-  if ![[ -z "$MIRROR_URL" ]]; then
+  if [[ ! -z "$MIRROR_URL" ]]; then
     FAST_MIRROR=$MIRROR_URL
   fi
   echo "=== using mirror [$FAST_MIRROR]"
