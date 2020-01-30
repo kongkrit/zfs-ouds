@@ -53,9 +53,9 @@ if [[ -z "$ROOTPASS" ]]; then
 fi
 
 if [[ "$ROOTPASS" == "$ROOTPASS2" ]]; then
-  echo "passwords equal"
+  echo "passwords match"
 else
-  echo "passwords not equal. error."
+  echo "passwords do not match. error."
   exit -1
 fi
 
