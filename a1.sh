@@ -74,6 +74,9 @@ else
   MODAPT=0
 fi
 
+echo "=== 1.2 adding universe repo and update"
+apt-add-repository universe
+
 if [ $MODAPT -eq 1 ]; then
   sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
 #echo "# ubuntu repos
@@ -108,8 +111,6 @@ echo "=== adding jonathonf zfs ppa"
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
 add-apt-repository --yes ppa:jonathonf/zfs
 
-echo "=== 1.2 adding universe repo and update"
-apt-add-repository universe
 echo "=== 1.2 apt update"
 apt update
 
