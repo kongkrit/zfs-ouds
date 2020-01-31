@@ -21,9 +21,12 @@ else
   exit -1
 fi
 
-echo "********************"
-echo "*** IN a1.sh now ***"
-echo "********************"
+# get ubuntu release name (bionic, disco, focal, etc.)
+RELEASE="$(lsb_release -a | sed -nE '/Codename:/p' | sed -E 's/Codename:[ \t]+//g')"
+
+echo "********************************"
+echo "*** UBUNTU Release is [$RELEASE]"
+echo "********************************"
 
 echo "*********************************"
 echo "*** REQUIRING USER INPUT HERE ***"
@@ -241,22 +244,28 @@ echo "=== 4.2 wrote /mnt/etc/netplan/01-netcfg.yaml"
 echo "=== 4.3 Configure the package sources in /mnt/etc/apt/sources.list:"
 if [ $MODAPT -eq 1 ]; then
 echo "# ubuntu repos
-deb $FAST_MIRROR bionic main restricted universe multiverse
-deb $FAST_MIRROR bionic-updates main restricted universe multiverse
-deb $FAST_MIRROR bionic-backports main restricted universe multiverse
-deb $FAST_MIRROR bionic-security main restricted universe multiverse" \
+deb $FAST_MIRROR $RELEASE main restricted universe multiverse
+deb $FAST_MIRROR $RELEASE-updates main restricted universe multiverse
+deb $FAST_MIRROR $RELEASE-backports main restricted universe multiverse
+deb $FAST_MIRROR $RELEASE-security main restricted universe multiverse
+deb $FAST_MIRROR $RELEASE-proposed main restricted universe multiverse" \
  > /mnt/etc/apt/sources.list
 else
 echo "# ubuntu repos
-deb http://archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu bionic main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu bionic-updates main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu bionic-backports main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu bionic-security main restricted universe multiverse" \
+deb http://archive.ubuntu.com/ubuntu $RELEASE main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu $RELEASE main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $RELEASE-updates main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu $RELEASE-updates main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $RELEASE-backports main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu $RELEASE-backports main restricted universe multiverse
+deb http://archive.ubuntu.com/ubuntu $RELEASE-proposed main restricted universe multiverse
+deb http://us.archive.ubuntu.com/ubuntu $RELEASE-proposed main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu $RELEASE-security main restricted universe multiverse" \
  > /mnt/etc/apt/sources.list
 fi
+echo "-------- begin content of /mnt/etc/apt/sources.list --------"
+cat /mnt/etc/apt/sources.list
+echo "-------- end content of /mnt/etc/apt/sources.list --------"
 
 echo "=== 4.4 Bind the virtual filesystems from the LiveCD environment to the new system"
 mount --rbind /dev  /mnt/dev
