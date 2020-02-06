@@ -154,8 +154,8 @@ echo "=== 2.3 creating paritions for UEFI booting (EFI partition)"
 sgdisk -n1:1M:+512M -t1:EF00 $DISK
 sgdisk -n1:1M:+512M -t1:EF00 $DISK2
 echo "=== 2.3 creating boot pool"
-sgdisk -n2:0:+512M -t2:BF01 $DISK
-sgdisk -n2:0:+512M -t2:BF01 $DISK2
+sgdisk -n2:0:+1G -t2:BF01 $DISK
+sgdisk -n2:0:+1G -t2:BF01 $DISK2
 echo "=== 2.3a creating root pool (unencrypted)"
 sgdisk     -n3:0:0        -t3:BF01 $DISK
 sgdisk     -n3:0:0        -t3:BF01 $DISK2
