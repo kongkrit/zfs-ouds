@@ -85,12 +85,14 @@ else
   MODAPT=0
 fi
 
+echo "=== 1.2 adding universe repo and update"
 if [ $MODAPT -eq 1 ]; then
   sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
+  sed -i.bak2 -E 's/^(deb http.*)$/\1 universe/g' /etc/apt/sources.list
+  apt update
+else
+  apt-add-repository universe
 fi
-
-echo "=== 1.2 adding universe repo and update"
-apt-add-repository universe
 
 debug "after apt-add"
 
