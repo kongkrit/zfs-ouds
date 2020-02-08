@@ -1,5 +1,13 @@
 #!/bin/bash
 
+function debug () {
+  if [[ ! -z $DEBUG ]]; then
+    echo "******** debug: $1 ********"
+    echo "******** exit to continue *******"
+    bash
+  fi
+}
+
 if [ $USER != "root" ]; then
   echo "must run as root"
   exit -1
@@ -77,17 +85,17 @@ else
   MODAPT=0
 fi
 
+if [ $MODAPT -eq 1 ]; then
+  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
+fi
+
 echo "=== 1.2 adding universe repo and update"
 apt-add-repository universe
 
+debug "after apt-add"
+
 if [ $MODAPT -eq 1 ]; then
   sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
-#echo "# ubuntu repos
-#deb cdrom:[Ubuntu 18.04.3 LTS _Bionic Beaver_ - Release amd64 (20190805)]/ bionic main restricted
-#deb http://mirror.math.princeton.edu/pub/ubuntu bionic main restricted
-#deb http://mirror.math.princeton.edu/pub/ubuntu bionic-updates main restricted
-#deb http://mirror.math.princeton.edu/pub/ubuntu bionic-security main restricted" \
-# > /etc/apt/sources.list
 fi
 
 echo "=== list disks"
