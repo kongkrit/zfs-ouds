@@ -53,12 +53,17 @@ apt install --yes --no-install-recommends linux-headers-generic
 
 echo "=== apt install -y software-properties-common"
 apt install -y software-properties-common
-echo "=== adding jonathonf zfs ppa"
+
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
-add-apt-repository --yes ppa:jonathonf/zfs
+if [[ "$RELEASE" == "focal" ]]; then
+  echo "=== focal needs no jonathonf zfs ppa"
+else
+  echo "=== adding jonathonf zfs ppa"
+  add-apt-repository --yes ppa:jonathonf/zfs
+fi
 
 # read -p "enter to install initramfs:" DUMMYV
-echo "=== installing jonathonf/zfs: zfs-initramfs"
+echo "=== installing (jonathonf)/zfs: zfs-initramfs"
 apt install --yes zfs-initramfs
 # read -p "enter to install libelf-dev and zfs-dkms:" DUMMYV
 
@@ -67,7 +72,7 @@ echo "=== autoconfig libssl in debconf"
 echo 'libssl1.1 libraries/restart-without-asking boolean true' | debconf-set-selections
 #echo "libssl1.1:amd64 libssl1.1/restart-services string" | debconf-set-selections
 
-echo "=== installing jonathonf/zfs: libelf-dev zfs-dkms"
+echo "=== installing (jonathonf)/zfs: libelf-dev zfs-dkms"
 apt install --yes libelf-dev zfs-dkms
 #echo "=== systemctl stop zfs-zed"
 #systemctl stop zfs-zed
@@ -81,8 +86,12 @@ echo "=== zfs --version"
 zfs --version
 # read -p "enter to continue:" DUMMYV
 
-echo "=== upgrade to latest HWE kernel"
-apt install --no-install-recommends -y linux-generic-hwe-18.04
+if [[ "$RELEASE" == "focal" ]]; then
+  echo "=== focal does not need latest HWE kernel"
+else
+  echo "=== upgrade to latest HWE kernel"
+  apt install --no-install-recommends -y linux-generic-hwe-18.04
+fi
 
 echo "=== 4.6 not needed for unencrypted disks"
 
