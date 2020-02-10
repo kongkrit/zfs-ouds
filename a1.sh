@@ -85,21 +85,6 @@ else
   MODAPT=0
 fi
 
-echo "=== 1.2 adding universe repo and update"
-if [ $MODAPT -eq 1 ]; then
-  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
-  sed -i.bak2 -E 's/^(deb http.*)$/\1 universe/g' /etc/apt/sources.list
-  apt update
-else
-  apt-add-repository universe
-fi
-
-debug "after apt-add"
-
-if [ $MODAPT -eq 1 ]; then
-  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
-fi
-
 echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
@@ -120,14 +105,33 @@ echo "*************************************"
 echo "*** DONE GATHERING INFO FROM USER ***"
 echo "*************************************"
 
-echo "=== adding jonathonf zfs ppa"
+echo "=== 1.2 adding universe repo and update"
+if [ $MODAPT -eq 1 ]; then
+  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
+  sed -i.bak2 -E 's/^(deb http.*)$/\1 universe/g' /etc/apt/sources.list
+  apt update
+else
+  apt-add-repository universe
+fi
+
+debug "after apt-add"
+
+if [ $MODAPT -eq 1 ]; then
+  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
+fi
+
 echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
-add-apt-repository --yes ppa:jonathonf/zfs
+if [[ "$RELEASE" == "focal" ]]; then
+  echo "=== focal needs no jonathonf zfs ppa"
+else
+  echo "=== adding jonathonf zfs ppa"
+  add-apt-repository --yes ppa:jonathonf/zfs
+fi
 
 echo "=== 1.2 apt update"
 apt update
 
-echo "=== installing jonathonf/zfs" 
+echo "=== installing (jonathonf)/zfs" 
 apt install --yes libelf-dev zfs-dkms
 echo "=== systemctl stop zfs-zed"
 systemctl stop zfs-zed
@@ -198,24 +202,6 @@ zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
     -O canmount=noauto -O mountpoint=/boot -R /mnt -f \
     bpool mirror ${DISK}-part2 ${DISK2}-part2
-
-#echo "...bashing..."
-#bash -
-#echo "...done bashing..."
-
-#echo "=== 3.1 Create filesystem datasets to act as containers"
-#zfs create -o canmount=off -o mountpoint=none rpool/ROOT
-#zfs create -o canmount=off -o mountpoint=none bpool/BOOT
-
-#echo "=== 3.2 Create filesystem datasets for the root and boot filesystems:"
-#zfs create -o canmount=noauto -o mountpoint=/ rpool/ROOT/ubuntu
-#zfs mount rpool/ROOT/ubuntu
-#zfs create -o canmount=noauto -o mountpoint=/boot bpool/BOOT/ubuntu
-#zfs mount bpool/BOOT/ubuntu
-
-#echo "=== 3.2X mount bpool and rpool"
-#zfs mount bpool
-#zfs mount rpool
 
 #echo "=== 3.3 Create datasets:"
 #echo "=== 3.3 exclude /var/tmp /var/cache from snapshots"1
