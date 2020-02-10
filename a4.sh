@@ -197,6 +197,9 @@ echo "=== 5.6b install grub (UEFI)"
 grub-install --target=x86_64-efi --efi-directory=/boot/efi \
     --bootloader-id=ubuntu --recheck --no-floppy
 
+echo "=== 5.6c update grub again"
+update-grub
+
 echo "=== 5.7 Verify that the ZFS module is installed:"
 echo "    ls /boot/grub/*/zfs.mod" 
 ls /boot/grub/*/zfs.mod
