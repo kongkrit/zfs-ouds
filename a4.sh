@@ -189,16 +189,9 @@ echo "=== 5.4 showing /etc/default/grub"
 cat /etc/default/grub
 #read -p "enter to continue:" DUMMYV
 
-echo "=== 5.5 update grub"
-update-grub
-echo "=== 5.5 Ignore errors from osprober, if present."
-
 echo "=== 5.6b install grub (UEFI)"
 grub-install --target=x86_64-efi --efi-directory=/boot/efi \
     --bootloader-id=ubuntu --recheck --no-floppy
-
-echo "=== 5.6c update grub again"
-update-grub
 
 echo "=== 5.7 Verify that the ZFS module is installed:"
 echo "    ls /boot/grub/*/zfs.mod" 
@@ -211,7 +204,7 @@ echo "    umount /boot/efi and /boot/efi2 (for UEFI)"
 umount /boot/efi
 umount /boot/efi2
 
-echo "=== 5.8 set mountpoint for bpool/BOOT/ubuntu"
+echo "=== 5.8 set mountpoint for bpool"
 #zfs set mountpoint=legacy bpool/BOOT/ubuntu
 zfs set mountpoint=legacy bpool
 #echo bpool/BOOT/ubuntu /boot zfs \
@@ -235,6 +228,13 @@ echo bpool /boot zfs \
 #echo "=== 6.1 (NOT) snapshot initial installation"
 #zfs snapshot bpool/BOOT/ubuntu@install
 #zfs snapshot rpool/ROOT/ubuntu@install
+
+echo "=== mount bpool as /boot to update grub"
+mount /boot
+
+echo "=== 5.5 update grub"
+update-grub
+echo "=== 5.5 Ignore errors from osprober, if present."
 
 echo "=== saving the name of DISK1 and DISK2 to disk1_name and disk2_name"
 echo $DISK > /disk1_name
