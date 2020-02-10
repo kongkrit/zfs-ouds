@@ -287,7 +287,7 @@ echo "==="
 echo "=== 4.4 doing chroot to /mnt and execute /a4.sh"
 echo "==="
 #chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
-chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS bash /a4.sh
+chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
 echo "=== 4.4 done chroot"
 
 echo "=== 6.3 unmount all filesystems in the LiveCD environment:"
