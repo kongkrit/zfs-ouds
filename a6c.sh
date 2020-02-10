@@ -5,6 +5,20 @@ if [ $USER != "root" ]; then
         exit -1
 fi
 
+echo "=== current content of ls -lh /home ==="
+ls -lh /home
+echo "=== Destroy /home and create a zfs dataset for /home?"
+echo "=== If this is a brand-new installation, you can do so"
+read -p "*** enter capital Y to nuke /home:" CONFIRMIT
+
+if [ $CONFIRMIT != "Y" ]; then
+  echo "=== ok, /home will a new zfs dataset"
+  echo "=== rm -rf /home"
+  rm -rf /home
+  echo "=== zfs create rpool/home"
+  zfs create rpool/home
+fi
+
 echo "=== 6.6 Create a user account:"
 read -p "   enter admin username:" USERNAME
 #zfs create rpool/home/$USERNAME
