@@ -210,7 +210,7 @@ zpool create -o ashift=13 \
 
 echo "=== 3.4 Install the minimal system:"
 echo "=== 3.4 debootstrap to /mnt"
-debootstrap bionic /mnt
+debootstrap "$RELEASE" /mnt
 echo "=== 3.4 zfs set devices=off rpool"
 zfs set devices=off rpool
 
