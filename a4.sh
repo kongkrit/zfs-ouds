@@ -34,7 +34,7 @@ echo "=== 4.5 configuring time zone data"
 #dpkg-reconfigure tzdata
 echo "=== 4.5 set time zone to [Asia/Bangkok]"
 # from https://serverfault.com/questions/84521/automate-dpkg-reconfigure-tzdata
-ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
+rm -rf /etc/localtime; ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 dpkg-reconfigure -f noninteractive tzdata
 
 echo "=== 4.5 install nano and openssh-server"
@@ -42,11 +42,19 @@ apt install -y nano openssh-server
 
 echo "=== 4.6 install linux kernel on disks"
 #apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
-apt install --yes --no-install-recommends linux-image-generic
+if [[ $RELEASE == "focal" ]]; then
+  apt install --yes --no-install-recommends linux-image-$(uname -r)
+else
+  apt install --yes --no-install-recommends linux-image-generic
+fi  
 #apt install --yes linux-image-generic-hwe-18.04
 echo "=== install linux kernel headers on disks"
 #apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
-apt install --yes --no-install-recommends linux-headers-generic
+if [[ $RELEASE == "focal" ]]; then
+  apt install --yes --no-install-recommends linux-headers-$(uname -r)
+else
+  apt install --yes --no-install-recommends linux-headers-generic
+fi
 
 #read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
