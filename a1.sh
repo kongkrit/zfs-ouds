@@ -290,6 +290,8 @@ echo "==="
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
 echo "=== 4.4 done chroot"
 
+echo "=== pre 6.3 sleep 5 seconds"
+sleep 5
 echo "=== 6.3 unmount all filesystems in the LiveCD environment:"
 mount | grep -v zfs | tac | awk '/\/mnt/ {print $3}' | xargs -i{} umount -lf {}
 zpool export -a
