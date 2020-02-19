@@ -45,7 +45,7 @@ apt install -y nano openssh-server
 echo "=== 4.6 install linux kernel headers on disks"
 #apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
 if [[ $RELEASE == "focal" ]]; then
-  apt install --yes --no-install-recommends linux-headers-$(uname -r)
+  apt install --yes --no-install-recommends linux-headers-$(uname -r) linux-modules-$(uname -r)
 else
   apt install --yes --no-install-recommends linux-headers-generic
 fi
