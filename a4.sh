@@ -45,7 +45,7 @@ read -p "enter to install linux kernel headers" DUMMYV
 echo "=== 4.6 install linux kernel headers on disks"
 #apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
 if [[ $RELEASE == "focal" ]]; then
-  apt install --yes --no-install-recommends linux-headers-$(uname -r)
+  apt install --yes linux-headers-$(uname -r)
 else
   apt install --yes --no-install-recommends linux-headers-generic
 fi
@@ -53,7 +53,7 @@ fi
 echo "=== 4.6 install linux kernel on disks"
 #apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 if [[ $RELEASE == "focal" ]]; then
-  apt install --yes --no-install-recommends linux-image-$(uname -r)
+  apt install --yes linux-image-$(uname -r)
 else
   apt install --yes --no-install-recommends linux-image-generic
 fi  
