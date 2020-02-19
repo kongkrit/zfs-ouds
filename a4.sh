@@ -40,6 +40,8 @@ dpkg-reconfigure -f noninteractive tzdata
 echo "=== 4.5 install nano and openssh-server"
 apt install -y nano openssh-server
 
+read -p "enter to install linux kernel headers" DUMMYV
+
 echo "=== 4.6 install linux kernel headers on disks"
 #apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
 if [[ $RELEASE == "focal" ]]; then
