@@ -81,8 +81,8 @@ echo "=== 6.8b2 install rsync"
 apt install -y rsync
 
 echo "=== 6.8b3 dd efi partition from disk1 to disk2"
-dd if=${DISK}-part2 \
-   of=${DISK2}-part2
+dd if=${DISK}-part1 \
+   of=${DISK2}-part1
 #echo "=== 6.8b3 rsync GRUB from disk1 to disk2"
 #rsync -Rai --stats --human-readable --delete --verbose --progress /boot/efi/./ /boot/efi2
 
