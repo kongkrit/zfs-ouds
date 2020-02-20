@@ -44,14 +44,6 @@ apt install -y nano openssh-server
 echo "about to install linux kernel headers"
 env DISK=$DISK DISK2=$DISK2 RELEASE=$RELEASE bash
 
-echo "=== 4.6 install linux kernel headers on disks"
-#apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
-if [[ $RELEASE == "focal" ]]; then
-  apt install --yes --no-install-recommends linux-headers-$(uname -r) linux-modules-$(uname -r)
-else
-  apt install --yes --no-install-recommends linux-headers-generic
-fi
-
 echo "=== 4.6 install linux kernel on disks"
 #apt install --yes --no-install-recommends linux-image-generic-hwe-18.04
 if [[ $RELEASE == "focal" ]]; then
@@ -60,6 +52,14 @@ else
   apt install --yes --no-install-recommends linux-image-generic
 fi  
 #apt install --yes linux-image-generic-hwe-18.04
+
+echo "=== 4.6 install linux kernel headers on disks"
+#apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
+if [[ $RELEASE == "focal" ]]; then
+  apt install --yes --no-install-recommends linux-headers-$(uname -r) linux-modules-$(uname -r)
+else
+  apt install --yes --no-install-recommends linux-headers-generic
+fi
 
 #read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
