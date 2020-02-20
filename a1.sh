@@ -288,9 +288,9 @@ echo "=== 4.4 doing chroot to /mnt and execute /a4.sh"
 echo "==="
 #chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
 
-echo "=== before chroot"
-echo "=== /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash"
-/usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash
+#echo "=== before chroot"
+#echo "=== /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash"
+#/usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash
 
 chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
 echo "=== 4.4 done chroot"
