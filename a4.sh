@@ -119,17 +119,18 @@ mkdosfs -F 32 -s 1 -n EFI ${DISK}-part1
 mkdosfs -F 32 -s 1 -n EFI ${DISK2}-part1
 echo "=== 4.8.2 make EFI directory"
 mkdir /boot/efi
-mkdir /boot/efi2
+# mkdir /boot/efi2
 
 echo "=== 4.8.3 add EFI partitions to /etc/fstab"
 echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK}-part1) \
     /boot/efi vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
-echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK2}-part1) \
-    /boot/efi2 vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
+# echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK2}-part1) \
+#    /boot/efi2 vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
 
-echo "=== 4.8.4 mount /boot/efi and /boot/efi2"
+# echo "=== 4.8.4 mount /boot/efi and /boot/efi2"
+echo "=== 4.8.4 mount /boot/efi"
 mount /boot/efi
-mount /boot/efi2
+#mount /boot/efi2
 
 echo "=== 4.8.5 install grub-efi"
 apt install --yes grub-efi-amd64-signed shim-signed
@@ -225,10 +226,11 @@ ls /boot/grub/*/zfs.mod
 echo "=== result above."
 
 echo "=== 5.8 Fix filesystem mount ordering"
-echo "    umount /boot/efi and /boot/efi2 (for UEFI)"
+# echo "    umount /boot/efi and /boot/efi2 (for UEFI)"
+echo "    umount /boot/efi (for UEFI)"
 sleep 3
 umount /boot/efi
-umount /boot/efi2
+# umount /boot/efi2
 
 echo "=== 5.8 set mountpoint for bpool"
 #zfs set mountpoint=legacy bpool/BOOT/ubuntu
