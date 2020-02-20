@@ -40,7 +40,9 @@ dpkg-reconfigure -f noninteractive tzdata
 echo "=== 4.5 install nano and openssh-server"
 apt install -y nano openssh-server
 
-# read -p "enter to install linux kernel headers" DUMMYV
+#read -p "enter to install linux kernel headers" DUMMYV
+echo "about to install linux kernel headers"
+env DISK=$DISK DISK2=$DISK2 RELEASE=$RELEASE bash
 
 echo "=== 4.6 install linux kernel headers on disks"
 #apt install --yes --no-install-recommends linux-headers-generic-hwe-18.04
