@@ -90,7 +90,7 @@ umount /boot/efi2
 
 echo "=== 6.8b install grub to disk2"
 efibootmgr -c -g -d $DISK2 \
-    -p 2 -L "ubuntu-2" -l '\EFI\ubuntu\grubx64.efi'
+    -p 1 -L "ubuntu-2" -l '\EFI\ubuntu\grubx64.efi'
 echo "=== 6.8b remount /boot/efi /boot/efi2"
 mount /boot/efi
 mount /boot/efi2
