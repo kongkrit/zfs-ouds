@@ -167,6 +167,10 @@ echo "=== 4.12 Setup system groups:"
 addgroup --system lpadmin
 addgroup --system sambashare
 
+if [[ $RELEASE == "focal" ]]; then
+  apt install --reinstall linux-headers-$(uname -r) linux-modules-$(uname -r) linux-image-$(uname -r)
+fi
+
 echo "=== 5.1 verify that zfs boot filesystem is recognized"
 echo "=== running grub-probe /boot"
 grub-probe /boot
