@@ -61,6 +61,10 @@ else
   apt install --yes --no-install-recommends linux-headers-generic
 fi
 
+if [[ $RELEASE == "focal" ]]; then
+  apt install --reinstall linux-headers-$(uname -r) linux-modules-$(uname -r) linux-image-$(uname -r)
+fi
+
 #read -p "installed HWE kernel" DUMMYV
 #apt install --yes zfs-initramfs 
 
@@ -129,6 +133,10 @@ mount /boot/efi2
 
 echo "=== 4.8.5 install grub-efi"
 apt install --yes grub-efi-amd64-signed shim-signed
+
+if [[ $RELEASE == "focal" ]]; then
+  apt install --reinstall linux-headers-$(uname -r) linux-modules-$(uname -r) linux-image-$(uname -r)
+fi
 
 #echo "=== 4.9 setting root password"
 #passwd
@@ -214,6 +222,7 @@ echo "=== result above."
 
 echo "=== 5.8 Fix filesystem mount ordering"
 echo "    umount /boot/efi and /boot/efi2 (for UEFI)"
+sleep 3
 umount /boot/efi
 umount /boot/efi2
 
@@ -246,6 +255,7 @@ echo "=== mount bpool as /boot to update grub"
 mount /boot
 
 echo "=== 5.5 update grub"
+sleep 2
 update-grub
 echo "=== 5.5 Ignore errors from osprober, if present."
 
