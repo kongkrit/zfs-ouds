@@ -77,8 +77,8 @@ echo "=== 6.8b1 mount /boot/efi"
 mount /boot/efi
 # mount /boot/efi2
 
-echo "=== 6.8b2 install rsync"
-apt install -y rsync
+#echo "=== 6.8b2 install rsync"
+#apt install -y rsync
 
 echo "=== 6.8b3 dd efi partition from disk1 to disk2"
 dd if=${DISK}-part1 \
