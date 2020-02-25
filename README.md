@@ -19,3 +19,20 @@ Based on ZFS on Linux wiki at https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.0
   chmod +x a*.sh
   ./a1.sh
   ```
+- note, for a pair of nvme drives, **choose the `nvme-eui` set** and not `nvme-<brand>` set for `disks`
+  ```
+  === list disks
+  total 0
+  drwxr-xr-x 2 root root 200 Feb 25 17:06 ./
+  drwxr-xr-x 7 root root 140 Feb 25 17:06 ../
+  lrwxrwxrwx 1 root root  13 Feb 25 17:08 nvme-eui.0025385c915033c7 -> ../../nvme0n1
+  lrwxrwxrwx 1 root root  13 Feb 25 17:08 nvme-eui.0025385c915033ce -> ../../nvme1n1
+  lrwxrwxrwx 1 root root  13 Feb 25 17:08 nvme-Samsung_SSD_970_EVO_Plus_500GB_S4EVNG0MC01712Z -> ../../nvme0n1
+  lrwxrwxrwx 1 root root  13 Feb 25 17:08 nvme-Samsung_SSD_970_EVO_Plus_500GB_S4EVNG0MC01719X -> ../../nvme1n1
+  === 2.1
+  === enter name of disk1 of 2:nvme-eui.0025385c915033c7
+  ==> disk1 is /dev/disk/by-id/nvme-eui.0025385c915033c7
+  === enter name of disk2 of 2:nvme-eui.0025385c915033ce
+  ==> disk2 is /dev/disk/by-id/nvme-eui.0025385c915033ce
+  *** enter capital Y to format both disks:Y
+  ```
