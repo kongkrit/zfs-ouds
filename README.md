@@ -19,7 +19,9 @@ Based on ZFS on Linux wiki at https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.0
   chmod +x a*.sh
   ./a1.sh
   ```
-- note, for a pair of nvme drives, **choose the `nvme-eui` set** and not `nvme-<brand>` set for `disks` (otherwise it fails at `a1.sh`  `debootstrap $RELEASE /mnt`)
+
+### Notes:
+- For a pair of nvme drives, **choose the `nvme-eui` set** and not `nvme-<brand>` set for `disks` (otherwise it fails at `a1.sh`  `debootstrap $RELEASE /mnt`)
   ```
   === list disks
   total 0
