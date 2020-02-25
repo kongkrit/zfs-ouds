@@ -200,7 +200,7 @@ echo "=== 2.4 creating boot pool (mirrored)"
 #    -O mountpoint=/ -R /mnt bpool mirror ${DISK}-part2 ${DISK2}-part2
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
-    -O canmount=noauto -O mountpoint=/boot -R /mnt/boot -f \
+    -O canmount=noauto -O mountpoint=/ -R /mnt -f \
     bpool mirror ${DISK}-part2 ${DISK2}-part2
 
 #echo "=== 3.3 Create datasets:"
