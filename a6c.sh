@@ -9,7 +9,7 @@ echo "=== current content of ls -lh /home ==="
 ls -lh /home
 echo "=== Destroy /home and create a zfs dataset for /home?"
 echo "=== If this is a brand-new installation, you can do so"
-read -p "*** enter capital Y to nuke /home:" CONFIRMIT
+read -p "*** enter CAPITAL Y to nuke /home:" CONFIRMIT
 
 if [ $CONFIRMIT != "Y" ]; then
   echo "=== ok, /home will a new zfs dataset"
@@ -17,6 +17,8 @@ if [ $CONFIRMIT != "Y" ]; then
   rm -rf /home
   echo "=== zfs create rpool/home"
   zfs create rpool/home
+else
+  echo "=== NOT creating new zfs dataset"
 fi
 
 echo "=== 6.6 Create a user account:"
