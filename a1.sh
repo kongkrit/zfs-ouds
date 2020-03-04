@@ -88,9 +88,9 @@ fi
 echo "=== list disks"
 ls -alF /dev/disk/by-id/
 echo "=== 2.1"
-read -p "=== enter name of disk1 of 2:" DISK
-DISK=/dev/disk/by-id/$DISK
-echo "==> disk1 is $DISK"
+read -p "=== enter name of disk1 of 2:" DISK1
+DISK1=/dev/disk/by-id/$DISK1
+echo "==> disk1 is $DISK1"
 read -p "=== enter name of disk2 of 2:" DISK2
 DISK2=/dev/disk/by-id/$DISK2
 echo "==> disk2 is $DISK2"
@@ -159,19 +159,19 @@ echo "=== 1.5 install debootstrap gdisk"
 apt install --yes debootstrap gdisk
 
 echo "=== 2.2 formatting both disks"
-sgdisk --zap-all $DISK
+sgdisk --zap-all $DISK1
 sgdisk --zap-all $DISK2
-#wipefs --all $DISK
+#wipefs --all $DISK1
 #wipefs --all $DISK2
 
 echo "=== 2.3 creating paritions for UEFI booting (EFI partition)"
-sgdisk -n1:1M:+512M -t1:EF00 $DISK
+sgdisk -n1:1M:+512M -t1:EF00 $DISK1
 sgdisk -n1:1M:+512M -t1:EF00 $DISK2
 echo "=== 2.3 creating boot pool"
-sgdisk -n2:0:+1G -t2:BF01 $DISK
+sgdisk -n2:0:+1G -t2:BF01 $DISK1
 sgdisk -n2:0:+1G -t2:BF01 $DISK2
 echo "=== 2.3a creating root pool (unencrypted)"
-sgdisk     -n3:0:0        -t3:BF01 $DISK
+sgdisk     -n3:0:0        -t3:BF01 $DISK1
 sgdisk     -n3:0:0        -t3:BF01 $DISK2
 
 echo "=== 2.3a done, issue udevadm settle"
@@ -180,28 +180,28 @@ echo "=== 2.3a udevadm settle done, sleeping for 3 seconds"
 sleep 3
 
 echo "=== 2.3b create FAT for EFI partitions"
-mkfs.fat -F 32 -n EFI "${DISK}-part1"
+mkfs.fat -F 32 -n EFI "${DISK1}-part1"
 mkfs.fat -F 32 -n EFI "${DISK2}-part1"
 
 echo "=== 2.5a creating root pool mirror (unencrypted)"
 #zpool create -o ashift=13 \
 #    -O acltype=posixacl -O canmount=off -O compression=lz4 \
 #    -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
-#    -O mountpoint=/ -R /mnt rpool mirror ${DISK}-part3 ${DISK2}-part3
+#    -O mountpoint=/ -R /mnt rpool mirror ${DISK1}-part3 ${DISK2}-part3
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 \
     -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
     -O canmount=noauto -O mountpoint=/ -R /mnt -f \
-    rpool mirror ${DISK}-part3 ${DISK2}-part3
+    rpool mirror ${DISK1}-part3 ${DISK2}-part3
 
 echo "=== 2.4 creating boot pool (mirrored)"
 #zpool create -o ashift=13 \
 #    -O acltype=posixacl -O canmount=off -O compression=lz4 -O atime=off -O xattr=sa \
-#    -O mountpoint=/ -R /mnt bpool mirror ${DISK}-part2 ${DISK2}-part2
+#    -O mountpoint=/ -R /mnt bpool mirror ${DISK1}-part2 ${DISK2}-part2
 zpool create -o ashift=13 \
     -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
     -O canmount=noauto -O mountpoint=/boot -R /mnt -f \
-    bpool mirror ${DISK}-part2 ${DISK2}-part2
+    bpool mirror ${DISK1}-part2 ${DISK2}-part2
 
 #echo "=== 3.3 Create datasets:"
 #echo "=== 3.3 exclude /var/tmp /var/cache from snapshots"1
@@ -269,13 +269,6 @@ mount --rbind /proc /mnt/proc
 mount --rbind /sys  /mnt/sys
 
 #echo "=== 4.4 listing disks"
-#ls -alF /dev/disk/by-id/
-#echo "=== 4.4 disks list above"
-#read -p "=== enter name of disk1 of 2:" DISK
-#DISK=/dev/disk/by-id/$DISK
-#echo "==> disk1 is $DISK"
-#read -p "=== enter name of disk2 of 2:" DISK2
-#DISK2=/dev/disk/by-id/$DISK2
 
 echo "=== copying $NEXT4FILE to new root"
 cp $NEXT4FILE /mnt
@@ -286,13 +279,13 @@ echo "==="
 #echo "=== 4.4 doing chroot, when bash prompt comes, execute a4.sh"
 echo "=== 4.4 doing chroot to /mnt and execute /a4.sh"
 echo "==="
-#chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 bash --login
+#chroot /mnt /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 bash --login
 
 #echo "=== before chroot"
-#echo "=== /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash"
-#/usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash
+#echo "=== /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash"
+#/usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash
 
-chroot /mnt /usr/bin/env DISK=$DISK DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
+chroot /mnt /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
 echo "=== 4.4 done chroot"
 
 echo "=== pre 6.3 sleep 3 seconds"
