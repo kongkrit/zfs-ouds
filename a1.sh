@@ -228,9 +228,9 @@ mount -t tmpfs tmpfs /mnt/run
 mkdir /mnt/run/lock
 
 # create dataset for /tmp
-zfs create -o com.ubuntu.zsys:bootfs=no \
-    rpool/ROOT/ubuntu_$UUID/tmp
-chmod 1777 /mnt/tmp
+# zfs create -o com.ubuntu.zsys:bootfs=no \
+#     rpool/ROOT/ubuntu_$UUID/tmp
+# chmod 1777 /mnt/tmp
 
 echo "=== 3.4 Install the minimal system:"
 echo "=== 3.4 debootstrap to /mnt"
