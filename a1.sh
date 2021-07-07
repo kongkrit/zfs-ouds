@@ -304,7 +304,7 @@ echo "==="
 #echo "=== /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash"
 #/usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash
 
-chroot /mnt /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE bash /a4.sh
+chroot /mnt /usr/bin/env DISK1=$DISK1 DISK2=$DISK2 ROOTPASS=$ROOTPASS RELEASE=$RELEASE UUID=$UUID bash /a4.sh
 echo "=== 4.4 done chroot"
 
 echo "=== pre 6.3 sleep 3 seconds"
