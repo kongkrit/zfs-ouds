@@ -1,15 +1,15 @@
 # zfs-ouds
-OUDS = On-root Ubuntu Dumb Scripts to help install zfs on root filesystem for ubuntu 18.04.3
-Based on ZFS on Linux wiki at https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS
+OUDS = On-root Ubuntu Dumb Scripts to help install zfs on root filesystem for ubuntu 21.04 (updated from 18.04.3)
+Based on ZFS on new [instructions](https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html) (old instructions at [Linux wiki](https://github.com/zfsonlinux/zfs/wiki/Ubuntu-18.04-Root-on-ZFS))
 
-- Start "testing" Ubuntu 18.04.3 Live desktop media
-- Hit `Ctrl+Alt+F2` to get to text terminal (`F3` and `F4` also works)
-- login with user `ubuntu` - no need for password
+- Start "testing" Ubuntu 21.04 Live desktop media
+~~- Hit `Ctrl+Alt+F2` to get to text terminal (`F3` and `F4` also works)~~
+~~- login with user `ubuntu` - no need for password~~
 - `sudo -i` become root
-- `apt install -y openssh-server`
-- `echo "ubuntu:any" | chpasswd` to change ubuntu user password to "any" (use your own password here)
+- `apt install -y openssh-server vim` you need `vim` according to Step1.3 from [here](https://openzfs.github.io/openzfs-docs/Getting%20Started/Ubuntu/Ubuntu%2020.04%20Root%20on%20ZFS.html)
+- `sudo passwd ubuntu` - you can use short password  
 - `ip a` and note the IP address.
-- Now you can SSH into the box via ubuntu@ipaddress and use the password set by echo text into `chpasswd` earlier
+- Now you can SSH into the box via ubuntu@ipaddress and use the password set by echo text into `passwd` earlier
 - SSH into the box and start the script:
   ```
   sudo -i
