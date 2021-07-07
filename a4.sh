@@ -10,12 +10,13 @@ echo "*** STARTING a4.sh NOW ***"
 echo "**************************"
 echo "=== DISK1 is [$DISK1]"
 echo "=== DISK2 is [$DISK2]"
-
+echo "=== RELEASE is [$RELEASE]"
+echo "=== UUID is [$UUID]"
 echo "=== 4.9 setting root password"
 echo "root:$ROOTPASS" | chpasswd
 
 echo "=== 4.5 configure basic system environment"
-ln -s /proc/self/mounts /etc/mtab
+# ln -s /proc/self/mounts /etc/mtab
 echo "=== 4.5 update the new repos"
 apt update
 
@@ -38,7 +39,7 @@ rm -rf /etc/localtime; ln -fs /usr/share/zoneinfo/Asia/Bangkok /etc/localtime
 dpkg-reconfigure -f noninteractive tzdata
 
 echo "=== 4.5 install nano and openssh-server"
-apt install -y nano openssh-server
+apt install -y nano vim openssh-server
 
 #read -p "enter to install linux kernel headers" DUMMYV
 #echo "about to install linux kernel headers"
@@ -122,10 +123,10 @@ mkdir /boot/efi
 mkdir /boot/efi2
 
 echo "=== 4.8.3 add EFI partitions to /etc/fstab"
-echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK1}-part1) \
-    /boot/efi vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
-echo PARTUUID=$(blkid -s PARTUUID -o value ${DISK2}-part1) \
-    /boot/efi2 vfat nofail,x-systemd.device-timeout=1 0 1 >> /etc/fstab
+echo /dev/disk/by-uuid/$(blkid -s UUID -o value ${DISK1}-part1) \
+    /boot/efi  vfat defaults 0 0 >> /etc/fstab
+echo /dev/disk/by-uuid/$(blkid -s UUID -o value ${DISK2}-part1) \
+    /boot/efi2 vfat defaults 0 0 >> /etc/fstab
 
 # echo "=== 4.8.4 mount /boot/efi and /boot/efi2"
 echo "=== 4.8.4 mount /boot/efi"
@@ -133,11 +134,12 @@ mount /boot/efi
 mount /boot/efi2
 
 echo "=== 4.8.5 install grub-efi"
-apt install --yes grub-efi-amd64-signed shim-signed
+apt install --yes \
+    grub-efi-amd64 grub-efi-amd64-signed linux-image-generic \
+    shim-signed zfs-initramfs zsys
 
-if [[ $RELEASE == "focal" ]]; then
-  apt install --reinstall linux-headers-$(uname -r) linux-modules-$(uname -r) linux-image-$(uname -r)
-fi
+echo "=== optionally remove os-prober"
+apt remove --purge --yes os-prober
 
 #echo "=== 4.9 setting root password"
 #passwd
@@ -166,6 +168,7 @@ systemctl enable tmp.mount
 
 echo "=== 4.12 Setup system groups:"
 addgroup --system lpadmin
+addgroup --system lxd
 addgroup --system sambashare
 
 #if [[ $RELEASE == "focal" ]]; then
@@ -179,28 +182,17 @@ echo "=== result should say [zfs]"
 #read -p "press enter:"
 
 echo "=== 5.2 Refresh the initrd files:"
-update-initramfs -u -k all
+update-initramfs -c -k all
 
 echo "=== 5.3/5.4 editing grub file"
-echo "    Set: GRUB_CMDLINE_LINUX=\"root=ZFS=rpool/ROOT/ubuntu\""
+echo "    Disable memory zeroing: Add init_on_alloc=0 to: GRUB_CMDLINE_LINUX_DEFAULT"
 echo "    Comment out: GRUB_TIMEOUT_STYLE=hidden"
 echo "    Set: GRUB_TIMEOUT=5"
 echo "    Below GRUB_TIMEOUT, add: GRUB_RECORDFAIL_TIMEOUT=5"
 echo "    Remove quiet and splash from: GRUB_CMDLINE_LINUX_DEFAULT"
 echo "    Uncomment: GRUB_TERMINAL=console"
-#cat /etc/default/grub | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX=")/\1root=ZFS=rpool\/ROOT\/ubuntu /g' | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX=")(.*)([ tab]+)(")/\1\2\4/g' | \
-#sed -E 's/(^GRUB_TIMEOUT_STYLE=hidden)/#\1/g' | \
-#sed -E 's/(^GRUB_TIMEOUT=)[0-9]+$/\15\nGRUB_RECORDFAIL_TIMEOUT=5/g' | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(quiet)(.*)(")/\1\2\4\5/g' | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(splash)(.*)(")/\1\2\4\5/g' | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")([ tab]+)(.*)(")/\1\3\4/g' | \
-#sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)([ tab]+)(")/\1\2\4/g' | \
-#sed -E 's/^(#)(GRUB_TERMINAL=console)/\2/g' > /tmp/grubby
 cat /etc/default/grub | \
-sed -E 's/(^GRUB_CMDLINE_LINUX=")/\1root=ZFS=rpool /g' | \
-sed -E 's/(^GRUB_CMDLINE_LINUX=")(.*)([ tab]+)(")/\1\2\4/g' | \
+sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(")/\1init_on_alloc=0 \2\3/g' | \
 sed -E 's/(^GRUB_TIMEOUT_STYLE=hidden)/#\1/g' | \
 sed -E 's/(^GRUB_TIMEOUT=)[0-9]+$/\15\nGRUB_RECORDFAIL_TIMEOUT=5/g' | \
 sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(quiet)(.*)(")/\1\2\4\5/g' | \
@@ -208,6 +200,7 @@ sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)(splash)(.*)(")/\1\2\4\5/g' | \
 sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")([ tab]+)(.*)(")/\1\3\4/g' | \
 sed -E 's/(^GRUB_CMDLINE_LINUX_DEFAULT=")(.*)([ tab]+)(")/\1\2\4/g' | \
 sed -E 's/^(#)(GRUB_TERMINAL=console)/\2/g' > /tmp/grubby
+cat /etc/default/grub | \
 cp /tmp/grubby /etc/default/grub
 rm -f /tmp/grubby
 
@@ -224,6 +217,16 @@ echo "    ls /boot/grub/*/zfs.mod"
 ls /boot/grub/*/zfs.mod
 #read -p "=== result above. press enter:" DUMMYV
 echo "=== result above."
+
+# disable grub-initrd-fallback.service For a mirror or raidz topology:
+systemctl mask grub-initrd-fallback.service
+
+# Fix filesystem mount ordering:
+mkdir /etc/zfs/zfs-list.cache
+touch /etc/zfs/zfs-list.cache/bpool
+touch /etc/zfs/zfs-list.cache/rpool
+ln -s /usr/lib/zfs-linux/zed.d/history_event-zfs-list-cacher.sh /etc/zfs/zed.d
+# zed -F &
 
 echo "=== 5.8 Fix filesystem mount ordering"
 echo "    umount /boot/efi and /boot/efi2 (for UEFI)"
