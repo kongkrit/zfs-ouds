@@ -29,6 +29,10 @@ else
   exit -1
 fi
 
+# install necessary tools and stop zed
+apt install -y debootstrap gdisk zfs-initramfs
+systemctl stop zed
+
 # get ubuntu release name (bionic, disco, focal, etc.)
 RELEASE="$(lsb_release -a | sed -nE '/Codename:/p' | sed -E 's/Codename:[ \t]+//g')"
 
@@ -105,42 +109,8 @@ echo "*************************************"
 echo "*** DONE GATHERING INFO FROM USER ***"
 echo "*************************************"
 
-echo "=== 1.2 adding universe repo and update"
-if [ $MODAPT -eq 1 ]; then
-  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
-  sed -i.bak2 -E 's/^(deb http.*)$/\1 universe/g' /etc/apt/sources.list
-  apt update
-else
-  apt-add-repository universe
-fi
-
 debug "after apt-add"
 
-if [ $MODAPT -eq 1 ]; then
-  sed -i.bak -E 's;^deb http[^ \t]+[ \t]+(.*)$;deb '"$FAST_MIRROR"' \1;g' /etc/apt/sources.list
-fi
-
-echo "zfs-dkms zfs-dkms/note-incompatible-licenses note true" | debconf-set-selections
-if [[ "$RELEASE" == "focal" ]]; then
-  echo "=== focal needs no jonathonf zfs ppa"
-else
-  echo "=== adding jonathonf zfs ppa"
-  add-apt-repository --yes ppa:jonathonf/zfs
-fi
-
-echo "=== 1.2 apt update"
-apt update
-
-echo "=== installing (jonathonf)/zfs" 
-apt install --yes libelf-dev zfs-dkms
-echo "=== systemctl stop zfs-zed"
-systemctl stop zfs-zed
-echo "=== modprobe -r zfs"
-modprobe -r zfs
-echo "=== modprobe zfs"
-modprobe zfs
-echo "=== systemctl start zfs-zed"
-systemctl start zfs-zed
 echo "=== zfs --version"
 zfs --version
 # read -p "enter to continue:" DUMMYV
@@ -156,11 +126,11 @@ ip a
 #echo "=== 1.5 install debootstrap gdisk and zfs"
 #apt install --yes debootstrap gdisk zfs-initramfs
 echo "=== 1.5 install debootstrap gdisk"
-apt install --yes debootstrap gdisk
+# apt install --yes debootstrap gdisk
 
 echo "=== 2.2 formatting both disks"
-sgdisk --zap-all $DISK1
-sgdisk --zap-all $DISK2
+sgdisk --zap-all $DISK1 ; udevadm settle
+sgdisk --zap-all $DISK2 ; udevadm settle
 #wipefs --all $DISK1
 #wipefs --all $DISK2
 
@@ -168,11 +138,11 @@ echo "=== 2.3 creating paritions for UEFI booting (EFI partition)"
 sgdisk -n1:1M:+512M -t1:EF00 $DISK1
 sgdisk -n1:1M:+512M -t1:EF00 $DISK2
 echo "=== 2.3 creating boot pool"
-sgdisk -n2:0:+1G -t2:BF01 $DISK1
-sgdisk -n2:0:+1G -t2:BF01 $DISK2
+sgdisk -n2:0:+2G -t2:BE00 $DISK1
+sgdisk -n2:0:+2G -t2:BE00 $DISK2
 echo "=== 2.3a creating root pool (unencrypted)"
-sgdisk     -n3:0:0        -t3:BF01 $DISK1
-sgdisk     -n3:0:0        -t3:BF01 $DISK2
+sgdisk     -n3:0:0        -t3:BF00 $DISK1
+sgdisk     -n3:0:0        -t3:BF00 $DISK2
 
 echo "=== 2.3a done, issue udevadm settle"
 udevadm settle
@@ -188,31 +158,90 @@ echo "=== 2.5a creating root pool mirror (unencrypted)"
 #    -O acltype=posixacl -O canmount=off -O compression=lz4 \
 #    -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
 #    -O mountpoint=/ -R /mnt rpool mirror ${DISK1}-part3 ${DISK2}-part3
-zpool create -o ashift=13 \
-    -O acltype=posixacl -O compression=lz4 \
-    -O dnodesize=auto -O normalization=formD -O atime=off -O xattr=sa \
-    -O canmount=noauto -O mountpoint=/ -R /mnt -f \
+zpool create \
+    -o ashift=13 -o autotrim=on \
+    -O acltype=posixacl -O canmount=off -O compression=lz4 \
+    -O dnodesize=auto -O normalization=formD -O atime=off \
+    -O xattr=sa -O mountpoint=/ -R /mnt \
     rpool mirror ${DISK1}-part3 ${DISK2}-part3
 
 echo "=== 2.4 creating boot pool (mirrored)"
 #zpool create -o ashift=13 \
 #    -O acltype=posixacl -O canmount=off -O compression=lz4 -O atime=off -O xattr=sa \
 #    -O mountpoint=/ -R /mnt bpool mirror ${DISK1}-part2 ${DISK2}-part2
-zpool create -o ashift=13 \
-    -O acltype=posixacl -O compression=lz4 -O atime=off -O xattr=sa \
-    -O canmount=noauto -O mountpoint=/boot -R /mnt -f \
+zpool create \
+    -o cachefile=/etc/zfs/zpool.cache \
+    -o ashift=13 -o autotrim=on -d \
+    -o feature@async_destroy=enabled \
+    -o feature@bookmarks=enabled \
+    -o feature@embedded_data=enabled \
+    -o feature@empty_bpobj=enabled \
+    -o feature@enabled_txg=enabled \
+    -o feature@extensible_dataset=enabled \
+    -o feature@filesystem_limits=enabled \
+    -o feature@hole_birth=enabled \
+    -o feature@large_blocks=enabled \
+    -o feature@lz4_compress=enabled \
+    -o feature@spacemap_histogram=enabled \
+    -O acltype=posixacl -O canmount=off -O compression=lz4 \
+    -O devices=off -O normalization=formD -O atime=off -O xattr=sa \
+    -O mountpoint=/boot -R /mnt \
     bpool mirror ${DISK1}-part2 ${DISK2}-part2
+
+# create containers
+zfs create -o canmount=off -o mountpoint=none rpool/ROOT
+zfs create -o canmount=off -o mountpoint=none bpool/BOOT
+
+# create filesystem for ROOT and BOOT
+#UUID=$(dd if=/dev/urandom bs=1 count=100 2>/dev/null |
+#    tr -dc 'a-z0-9' | cut -c-6)
+UUID=$(date +%y%m%d)
+
+zfs create -o mountpoint=/ \
+    -o com.ubuntu.zsys:bootfs=yes \
+    -o com.ubuntu.zsys:last-used=$(date +%s) rpool/ROOT/ubuntu_$UUID
+
+zfs create -o mountpoint=/boot bpool/BOOT/ubuntu_$UUID
 
 #echo "=== 3.3 Create datasets:"
 #echo "=== 3.3 exclude /var/tmp /var/cache from snapshots"1
 #echo "=== 3.3 create /opt /srv /usr /usr/local /var/games"
 #echo "===     /var/mail /var/snap /var/www docker nfs tmpfs"
 
+# create dataset for user
+zfs create rpool/ROOT/ubuntu_$UUID/var
+
+# create userdata
+zfs create -o canmount=off -o mountpoint=/ \
+    rpool/USERDATA
+zfs create -o com.ubuntu.zsys:bootfs-datasets=rpool/ROOT/ubuntu_$UUID \
+    -o canmount=on -o mountpoint=/root \
+    rpool/USERDATA/root_$UUID
+chmod 700 /mnt/root
+
+# For a mirror or raidz topology, create a dataset for /boot/grub
+zfs create -o com.ubuntu.zsys:bootfs=no bpool/grub
+
+# mount a tmpfs at /run
+mkdir /mnt/run
+mount -t tmpfs tmpfs /mnt/run
+mkdir /mnt/run/lock
+
+# create dataset for /tmp
+zfs create -o com.ubuntu.zsys:bootfs=no \
+    rpool/ROOT/ubuntu_$UUID/tmp
+chmod 1777 /mnt/tmp
+
 echo "=== 3.4 Install the minimal system:"
 echo "=== 3.4 debootstrap to /mnt"
 debootstrap "$RELEASE" /mnt
-echo "=== 3.4 zfs set devices=off rpool"
-zfs set devices=off rpool
+
+echo "=== copy in zpool.cache:"
+mkdir /mnt/etc/zfs
+cp /etc/zfs/zpool.cache /mnt/etc/zfs/
+
+# echo "=== 3.4 zfs set devices=off rpool"
+# zfs set devices=off rpool
 
 echo "=== 4.1 configure machine name as [$HOSTNAME]"
 echo "=== 4.1 entered [$HOSTNAME]"
@@ -225,7 +254,8 @@ echo "=== 4.1 appended [$HOSTSENTRY] to /mnt/etc/hosts"
 echo "=== 4.2 Configure the network interface [${INTF}:]"
 # ip addr show
 # read -p "=== 4.2 enter inface name (excluding colon):" INTF
-echo "network:
+cat << EOF >> /mnt/etc/netplan/01-netcfg.yaml
+network:
   version: 2
   ethernets:
     ${INTF}:
@@ -234,31 +264,20 @@ echo "network:
 #      addresses: [192.168.1.110/24, ]
 #      gateway4:  192.168.1.1
 #      nameservers:
-#              addresses: [8.8.8.8, 8.8.4.4]" >> /mnt/etc/netplan/01-netcfg.yaml
+#              addresses: [8.8.8.8, 8.8.4.4]
+EOF
 echo "=== 4.2 wrote /mnt/etc/netplan/01-netcfg.yaml"
 
 echo "=== 4.3 Configure the package sources in /mnt/etc/apt/sources.list:"
-if [ $MODAPT -eq 1 ]; then
-echo "# ubuntu repos
-deb $FAST_MIRROR $RELEASE main restricted universe multiverse
-deb $FAST_MIRROR $RELEASE-updates main restricted universe multiverse
-deb $FAST_MIRROR $RELEASE-backports main restricted universe multiverse
-deb $FAST_MIRROR $RELEASE-security main restricted universe multiverse
-deb $FAST_MIRROR $RELEASE-proposed main restricted universe multiverse" \
- > /mnt/etc/apt/sources.list
-else
-echo "# ubuntu repos
+
+cat << EOF > /mnt/etc/apt/sources.list
 deb http://archive.ubuntu.com/ubuntu $RELEASE main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu $RELEASE main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu $RELEASE-updates main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu $RELEASE-updates main restricted universe multiverse
 deb http://archive.ubuntu.com/ubuntu $RELEASE-backports main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu $RELEASE-backports main restricted universe multiverse
-deb http://archive.ubuntu.com/ubuntu $RELEASE-proposed main restricted universe multiverse
-deb http://us.archive.ubuntu.com/ubuntu $RELEASE-proposed main restricted universe multiverse
-deb http://security.ubuntu.com/ubuntu $RELEASE-security main restricted universe multiverse" \
- > /mnt/etc/apt/sources.list
-fi
+# deb http://archive.ubuntu.com/ubuntu $RELEASE-proposed main restricted universe multiverse
+deb http://security.ubuntu.com/ubuntu $RELEASE-security main restricted universe multiverse
+EOF
+
 echo "-------- begin content of /mnt/etc/apt/sources.list --------"
 cat /mnt/etc/apt/sources.list
 echo "-------- end content of /mnt/etc/apt/sources.list --------"
